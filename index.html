@@ -1,0 +1,1772 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>English Run</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%230071e3'/%3E%3Cstop offset='100%25' style='stop-color:%23af52de'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='20' fill='url(%23g)'/%3E%3Ctext x='50' y='75' font-size='70' font-weight='bold' text-anchor='middle' fill='white' font-family='Arial'%3EE%3C/text%3E%3C/svg%3E">
+<script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
+<style>
+:root {
+    --bg-primary: #f5f5f7; --text-primary: #1d1d1f; --text-secondary: #86868b;
+    --accent-blue: #0071e3; --accent-green: #34c759; --accent-red: #ff3b30;
+    --accent-orange: #ff9500; --accent-gold: #ffd60a; --accent-purple: #af52de;
+    --glass-bg: rgba(255, 255, 255, 0.82); --glass-border: rgba(255, 255, 255, 0.6);
+    --shadow-medium: 0 15px 50px rgba(0, 0, 0, 0.1);
+    --radius-sm: 12px; --radius-md: 18px; --radius-lg: 28px;
+    --font-stack: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+    --transition-smooth: cubic-bezier(0.25, 1, 0.5, 1);
+    --track-color: #2e86de;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
+html, body { font-family: var(--font-stack); background: var(--bg-primary); color: var(--text-primary); height: 100%; width: 100%; overflow: hidden; }
+
+.english-wallpaper { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; background: linear-gradient(160deg, #e3f2fd 0%, #f3e5f5 45%, #fff3e0 100%); }
+.wallpaper-grid { position: absolute; inset: -50px; background-image: linear-gradient(rgba(0,113,227,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(0,113,227,0.07) 1px, transparent 1px); background-size: 36px 36px; animation: grid-drift 80s linear infinite; }
+@keyframes grid-drift { to { transform: translate(36px, 36px); } }
+.shape { position: absolute; border-radius: 50%; filter: blur(60px); opacity: 0.55; }
+.shape-1 { width: 300px; height: 300px; background: #bbdefb; top: -80px; left: -80px; animation: shape-drift 18s ease-in-out infinite alternate; }
+.shape-2 { width: 350px; height: 350px; background: #e1bee7; bottom: -100px; right: -100px; animation: shape-drift 22s ease-in-out infinite alternate-reverse; }
+.shape-3 { width: 250px; height: 250px; background: #ffe0b2; top: 40%; left: 60%; animation: shape-drift 26s ease-in-out infinite alternate; }
+@keyframes shape-drift { from { transform: translate(0,0) scale(1); } to { transform: translate(60px, -40px) scale(1.15); } }
+.letter-symbols { position: absolute; inset: 0; }
+.letter-sym { position: absolute; font-weight: 800; font-family: "SF Pro Display", Arial, sans-serif; animation-name: sym-rise; animation-timing-function: linear; animation-iteration-count: infinite; }
+@keyframes sym-rise { 0% { transform: translateY(105vh) rotate(0deg); opacity: 0; } 8% { opacity: 0.85; } 92% { opacity: 0.85; } 100% { transform: translateY(-15vh) rotate(360deg); opacity: 0; } }
+.letter-sym.bounce { animation-name: sym-bounce; }
+@keyframes sym-bounce { 0%, 100% { transform: translateY(0) rotate(-10deg) scale(1); } 50% { transform: translateY(-40px) rotate(10deg) scale(1.15); } }
+
+.screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 16px; opacity: 0; pointer-events: none; transition: opacity 0.4s var(--transition-smooth), transform 0.4s var(--transition-smooth); transform: scale(0.96); z-index: 1; }
+.screen.active { opacity: 1; pointer-events: auto; transform: scale(1); }
+.glass-card { background: var(--glass-bg); backdrop-filter: blur(40px) saturate(180%); -webkit-backdrop-filter: blur(40px) saturate(180%); border: 1px solid var(--glass-border); border-radius: var(--radius-lg); box-shadow: var(--shadow-medium); padding: 24px 20px; width: 100%; max-width: 460px; text-align: center; max-height: 92vh; display: flex; flex-direction: column; position: relative; }
+
+.home-logo { display: flex; justify-content: center; margin-bottom: 12px; }
+.logo-cube { width: 72px; height: 72px; border-radius: 22px; background: linear-gradient(135deg, #0071e3, #af52de); display: flex; align-items: center; justify-content: center; box-shadow: 0 12px 30px rgba(0,113,227,0.4); animation: logo-bounce 2.5s ease-in-out infinite; }
+.logo-cube span { font-size: 40px; font-weight: 800; color: white; font-family: Arial, sans-serif; }
+@keyframes logo-bounce { 0%, 100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-8px) rotate(3deg); } }
+h1 { font-size: 32px; font-weight: 900; letter-spacing: -1.5px; margin-bottom: 6px; background: linear-gradient(135deg, #0071e3 0%, #af52de 50%, #ff3b30 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-size: 200% auto; animation: gradient-shift 8s ease infinite; }
+@keyframes gradient-shift { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+.home-badges { display: flex; gap: 6px; justify-content: center; margin-bottom: 14px; flex-wrap: wrap; }
+.hbadge { font-size: 10px; font-weight: 800; padding: 4px 10px; border-radius: 20px; letter-spacing: 0.5px; }
+.hbadge.blue { background: rgba(0,113,227,0.12); color: var(--accent-blue); }
+.hbadge.purple { background: rgba(175,82,222,0.12); color: var(--accent-purple); }
+.hbadge.green { background: rgba(52,199,89,0.12); color: var(--accent-green); }
+.subtitle { color: var(--text-secondary); font-size: 13px; line-height: 1.4; margin-bottom: 14px; }
+h2 { font-size: 20px; font-weight: 800; margin-bottom: 14px; }
+
+.home-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 14px; }
+.hs-item { background: rgba(0,0,0,0.04); border-radius: 12px; padding: 8px 4px; display: flex; flex-direction: column; gap: 2px; }
+.hs-val { font-size: 16px; font-weight: 800; color: var(--accent-blue); }
+.hs-label { font-size: 9px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; }
+
+.settings-gear { position: absolute; top: 16px; right: 16px; width: 38px; height: 38px; border-radius: 50%; border: none; background: rgba(0,0,0,0.05); color: var(--text-primary); cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 2; transition: all 0.2s; }
+.settings-gear:active { transform: scale(0.9) rotate(45deg); }
+.settings-gear svg { width: 20px; height: 20px; }
+
+.form-row { display: flex; gap: 10px; }
+.form-row .input-group { flex: 1; }
+.input-group { position: relative; margin-bottom: 12px; text-align: left; }
+.input-group label { display: block; font-size: 11px; font-weight: 800; color: var(--text-secondary); margin-bottom: 5px; margin-left: 2px; text-transform: uppercase; letter-spacing: 0.5px; }
+.input-field { width: 100%; padding: 12px 14px; border-radius: 14px; border: 1.5px solid rgba(0,0,0,0.08); background: rgba(255,255,255,0.9); font-size: 15px; color: var(--text-primary); transition: all 0.3s var(--transition-smooth); font-family: var(--font-stack); }
+.input-field:focus { border-color: var(--accent-blue); box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.12); }
+.select-wrapper { position: relative; }
+.select-wrapper::after { content: ''; position: absolute; right: 14px; top: 50%; transform: translateY(-50%); width: 11px; height: 11px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2386868b' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-size: contain; background-repeat: no-repeat; pointer-events: none; }
+select.input-field { appearance: none; -webkit-appearance: none; cursor: pointer; padding-right: 36px; }
+
+.char-select-btn { width: 100%; display: flex; align-items: center; gap: 12px; padding: 9px 14px; border-radius: 14px; border: 1.5px solid rgba(0,0,0,0.08); background: rgba(255,255,255,0.9); cursor: pointer; transition: all 0.2s var(--transition-smooth); font-family: var(--font-stack); }
+.char-select-btn:active { transform: scale(0.98); border-color: var(--accent-blue); }
+.char-preview-icon { width: 38px; height: 38px; flex-shrink: 0; }
+.char-preview-icon svg { width: 100%; height: 100%; }
+.char-preview-name { font-size: 15px; font-weight: 700; flex: 1; text-align: left; color: var(--text-primary); }
+.chevron { color: var(--text-secondary); font-size: 22px; font-weight: 300; }
+.char-picker-card { max-width: 380px; }
+.char-picker-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 14px 0 8px; }
+.picker-char { aspect-ratio: 1; border-radius: 16px; background: rgba(0,0,0,0.04); border: 3px solid transparent; cursor: pointer; padding: 8px; transition: all 0.2s var(--transition-smooth); display: flex; align-items: center; justify-content: center; }
+.picker-char svg { width: 100%; height: 100%; }
+.picker-char.selected { border-color: var(--accent-blue); background: rgba(0,113,227,0.12); transform: scale(1.08); box-shadow: 0 5px 15px rgba(0,113,227,0.25); }
+.picker-char:active { transform: scale(0.95); }
+.char-picker-name { font-weight: 800; font-size: 16px; color: var(--accent-blue); min-height: 24px; margin-bottom: 10px; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 13px 20px; border-radius: 50px; border: none; font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.2s var(--transition-smooth); width: 100%; font-family: var(--font-stack); }
+.btn:active { transform: scale(0.97); }
+.btn-primary { background: linear-gradient(135deg, #0071e3 0%, #0051a8 100%); color: white; box-shadow: 0 6px 18px rgba(0, 113, 227, 0.35); }
+.btn-secondary { background: rgba(0,0,0,0.06); color: var(--text-primary); }
+.btn-danger { background: rgba(255, 59, 48, 0.12); color: var(--accent-red); }
+.btn-success { background: linear-gradient(135deg, #34c759 0%, #28a745 100%); color: white; box-shadow: 0 6px 18px rgba(52, 199, 89, 0.35); }
+.btn-purple { background: linear-gradient(135deg, #af52de 0%, #7b2ff7 100%); color: white; box-shadow: 0 6px 18px rgba(175, 82, 222, 0.35); }
+.btn-gold { background: linear-gradient(135deg, #ffd60a 0%, #ffb700 100%); color: #1d1d1f; box-shadow: 0 6px 18px rgba(255, 183, 0, 0.4); }
+
+.setting-row { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid rgba(0,0,0,0.06); font-weight: 600; font-size: 15px; }
+.setting-row:last-of-type { border-bottom: none; }
+.toggle-switch { position: relative; width: 52px; height: 30px; flex-shrink: 0; }
+.toggle-switch input { opacity: 0; width: 0; height: 0; }
+.toggle-slider { position: absolute; cursor: pointer; inset: 0; background: rgba(0,0,0,0.15); border-radius: 30px; transition: 0.3s; }
+.toggle-slider::before { content: ''; position: absolute; height: 24px; width: 24px; left: 3px; bottom: 3px; background: white; border-radius: 50%; transition: 0.3s; box-shadow: 0 1px 3px rgba(0,0,0,0.25); }
+.toggle-switch input:checked + .toggle-slider { background: var(--accent-green); }
+.toggle-switch input:checked + .toggle-slider::before { transform: translateX(22px); }
+
+.modal-backdrop { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.45); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); display: flex; align-items: center; justify-content: center; z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 0.3s var(--transition-smooth); padding: 16px; }
+.modal-backdrop.active { opacity: 1; pointer-events: auto; }
+.modal-card { background: #ffffff; border-radius: var(--radius-lg); box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2); padding: 24px 20px; width: 100%; max-width: 440px; text-align: center; transform: scale(0.9); transition: transform 0.3s var(--transition-smooth); max-height: 90vh; overflow-y: auto; }
+.modal-backdrop.active .modal-card { transform: scale(1); }
+.modal-icon { font-size: 44px; margin-bottom: 12px; }
+.modal-title { font-size: 19px; font-weight: 800; margin-bottom: 8px; }
+.modal-message { color: var(--text-secondary); font-size: 14px; line-height: 1.5; margin-bottom: 20px; white-space: pre-line; }
+.modal-buttons { display: flex; gap: 10px; }
+
+/* Material & Flashcard Layout */
+.material-modal-card { max-width: 800px; text-align: left; }
+.material-grid-container { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 12px 0; max-height: 60vh; overflow-y: auto; padding-right: 4px; }
+@media (max-width: 650px) {
+    .material-grid-container { grid-template-columns: 1fr; max-height: 65vh; }
+}
+.grid-box { background: rgba(0,113,227,0.03); border-radius: 16px; padding: 16px; border: 1px solid rgba(0,113,227,0.12); display: flex; flex-direction: column; }
+.grid-box h3 { font-size: 15px; font-weight: 800; color: var(--accent-blue); margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+
+.material-section { margin-bottom: 12px; }
+.material-section h4 { font-size: 13px; font-weight: 700; color: var(--accent-purple); margin-bottom: 4px; }
+.material-section p { font-size: 12.5px; line-height: 1.45; color: var(--text-primary); white-space: pre-line; }
+
+.flashcards-wrapper { display: flex; flex-direction: column; gap: 10px; }
+.flashcard-item { background: #ffffff; border: 1.5px solid rgba(0,0,0,0.08); border-radius: 12px; padding: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); transition: transform 0.2s; }
+.flashcard-item:hover { transform: translateY(-2px); border-color: var(--accent-purple); }
+.fc-word { font-weight: 800; font-size: 15px; color: var(--accent-purple); display: flex; justify-content: space-between; align-items: center; }
+.fc-type { font-size: 10px; font-weight: 700; background: rgba(175,82,222,0.12); color: var(--accent-purple); padding: 2px 8px; border-radius: 10px; text-transform: uppercase; }
+.fc-meaning { font-weight: 700; font-size: 13px; color: var(--text-primary); margin: 4px 0 2px; }
+.fc-desc { font-size: 11.5px; color: var(--text-secondary); line-height: 1.4; }
+
+/* DAILY RANDOM FLASHCARD STYLING (3D FLIP) */
+.daily-card-container { max-width: 440px; text-align: center; }
+.flip-card { background-color: transparent; width: 100%; height: 230px; perspective: 1000px; margin: 14px 0; cursor: pointer; }
+.flip-card-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1); transform-style: preserve-3d; }
+.flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
+.flip-card-front, .flip-card-back { position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; border-radius: var(--radius-md); padding: 18px; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 10px 30px rgba(0,0,0,0.08); border: 2px solid rgba(0,113,227,0.15); }
+.flip-card-front { background: linear-gradient(135deg, #ffffff 0%, #f0f7ff 100%); color: var(--text-primary); }
+.flip-card-back { background: linear-gradient(135deg, #af52de 0%, #7b2ff7 100%); color: white; transform: rotateY(180deg); border-color: transparent; }
+.df-emoji { font-size: 52px; margin-bottom: 6px; }
+.df-eng { font-size: 26px; font-weight: 900; color: var(--accent-blue); }
+.df-type-tag { font-size: 10px; font-weight: 800; background: rgba(0,113,227,0.1); color: var(--accent-blue); padding: 2px 8px; border-radius: 10px; text-transform: uppercase; margin-top: 4px; }
+.df-audio-btn { margin-top: 8px; background: rgba(0,113,227,0.1); border: none; padding: 6px 14px; border-radius: 20px; font-size: 12.5px; font-weight: 800; color: var(--accent-blue); cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: transform 0.2s; }
+.df-audio-btn:active { transform: scale(0.95); }
+.df-hint { font-size: 11px; color: var(--text-secondary); margin-top: 10px; font-weight: 600; }
+.df-indo { font-size: 24px; font-weight: 900; margin-bottom: 6px; }
+.df-example { font-size: 13px; font-style: italic; opacity: 0.95; line-height: 1.4; margin-bottom: 4px; }
+.df-ex-indo { font-size: 11.5px; opacity: 0.85; }
+.df-nav-row { display: flex; gap: 8px; align-items: center; justify-content: space-between; margin-top: 10px; }
+.streak-badge { background: rgba(255,149,0,0.15); color: var(--accent-orange); font-weight: 800; padding: 4px 12px; border-radius: 20px; font-size: 12px; }
+
+.result-card-box { max-width: 440px; }
+.result-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 16px 0; }
+.result-stat { background: rgba(0,0,0,0.04); border-radius: 14px; padding: 12px 6px; display: flex; flex-direction: column; gap: 4px; }
+.rs-label { font-size: 10px; font-weight: 800; color: var(--text-secondary); text-transform: uppercase; }
+.rs-value { font-size: 18px; font-weight: 800; color: var(--text-primary); }
+.review-list { max-height: 380px; overflow-y: auto; margin: 14px 0; text-align: left; }
+.review-item { background: rgba(255,59,48,0.05); border: 1px solid rgba(255,59,48,0.15); border-radius: 14px; padding: 12px; margin-bottom: 12px; }
+.review-q { font-weight: 700; font-size: 15px; margin-bottom: 6px; color: var(--text-primary); }
+.review-your { font-size: 13px; color: var(--accent-red); font-weight: 600; }
+.review-correct { font-size: 13px; color: var(--accent-green); font-weight: 700; margin-bottom: 6px; }
+.review-solution { margin-top: 8px; padding: 10px 12px; background: rgba(0,113,227,0.08); border-left: 3px solid var(--accent-blue); border-radius: 8px; font-size: 13px; color: var(--text-primary); white-space: pre-line; line-height: 1.5; }
+
+#game-screen { padding: 0; justify-content: flex-start; }
+.game-header { width: 100%; padding: 10px 14px; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 10px; border-bottom: 1px solid rgba(0,0,0,0.06); z-index: 10; flex-shrink: 0; }
+.header-left { display: flex; align-items: center; gap: 6px; }
+.header-center { display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; }
+.header-right { display: flex; align-items: center; gap: 8px; }
+.stat-pill { display: flex; align-items: center; gap: 5px; padding: 6px 11px; background: rgba(0,0,0,0.04); border-radius: 20px; font-weight: 800; font-size: 13px; }
+.stat-pill.correct { color: var(--accent-green); background: rgba(52, 199, 89, 0.12); }
+.stat-pill.wrong { color: var(--accent-red); background: rgba(255, 59, 48, 0.12); }
+.lives-display { display: flex; gap: 2px; font-size: 15px; }
+.life-heart { transition: all 0.3s; display: inline-block; }
+.life-heart.lost { filter: grayscale(1); opacity: 0.25; transform: scale(0.8); }
+.timer-display { font-size: 16px; font-weight: 800; color: var(--text-primary); background: rgba(0,0,0,0.04); padding: 6px 14px; border-radius: 20px; font-variant-numeric: tabular-nums; display: flex; align-items: center; gap: 6px; }
+.timer-display.countdown.low { color: var(--accent-red); background: rgba(255,59,48,0.12); animation: pulse 0.8s infinite; }
+.progress-pill { background: rgba(0,0,0,0.05); padding: 6px 12px; border-radius: 20px; font-weight: 800; font-size: 12px; color: var(--text-secondary); white-space: nowrap; }
+.icon-btn { width: 36px; height: 36px; border-radius: 50%; border: none; background: rgba(0,0,0,0.05); color: var(--text-primary); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s var(--transition-smooth); }
+.icon-btn:active { transform: scale(0.92); background: rgba(0,0,0,0.1); }
+.icon-btn svg { width: 18px; height: 18px; }
+.icon-btn.exit { background: rgba(255, 59, 48, 0.1); color: var(--accent-red); }
+
+.solo-player-name { text-align: center; padding: 10px 16px 4px; font-size: 20px; font-weight: 800; display: flex; align-items: center; justify-content: center; gap: 8px; flex-shrink: 0; }
+.solo-player-name .char-icon { width: 30px; height: 30px; }
+.track-container { width: 100%; padding: 8px 16px 12px; background: rgba(255,255,255,0.5); border-bottom: 1px solid rgba(0,0,0,0.05); flex-shrink: 0; }
+.sprint-track { position: relative; border-radius: 14px; overflow: hidden; background: var(--track-color); box-shadow: inset 0 2px 8px rgba(0,0,0,0.15); padding: 6px 0; }
+.track-lane { position: relative; height: 44px; border-bottom: 2px solid #fff; background: repeating-linear-gradient(90deg, rgba(255,255,255,0.05) 0px, rgba(255,255,255,0.05) 40px, transparent 40px, transparent 80px); }
+.track-lane:last-child { border-bottom: none; }
+.finish-line { position: absolute; top: 0; bottom: 0; right: 4%; width: 8px; z-index: 2; background: repeating-linear-gradient(45deg, #1d1d1f 0, #1d1d1f 6px, #fff 6px, #fff 12px); }
+.distance-labels { display: flex; justify-content: space-between; padding: 4px 4% 0; font-size: 10px; font-weight: 800; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; }
+.runner-char { position: absolute; top: 50%; transform: translate(-50%, -50%); width: 34px; height: 34px; z-index: 3; transition: left 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); filter: drop-shadow(0 3px 4px rgba(0,0,0,0.3)); }
+.runner-char svg { width: 100%; height: 100%; }
+.runner-char.running { animation: run-bob 0.4s infinite linear; }
+.runner-char.idle { animation: idle-bob 1.5s infinite ease-in-out; }
+@keyframes idle-bob { 0%, 100% { transform: translate(-50%, -50%) scale(1); } 50% { transform: translate(-50%, -58%) scale(1.04); } }
+@keyframes run-bob { 0% { transform: translate(-50%, -50%) rotate(-8deg) scale(1); } 25% { transform: translate(-50%, -70%) rotate(0deg) scale(1.08); } 50% { transform: translate(-50%, -50%) rotate(8deg) scale(1); } 75% { transform: translate(-50%, -62%) rotate(0deg) scale(1.05); } 100% { transform: translate(-50%, -50%) rotate(-8deg) scale(1); } }
+
+.game-area { flex: 1; width: 100%; display: grid; gap: 10px; padding: 12px; overflow-y: auto; align-content: start; }
+.game-area.p-1 { grid-template-columns: 1fr; }
+.game-area.p-2, .game-area.p-3, .game-area.p-4 { grid-template-columns: 1fr 1fr; }
+.player-card { background: var(--glass-bg); backdrop-filter: blur(10px); border-radius: var(--radius-md); padding: 16px; display: flex; flex-direction: column; align-items: center; border: 2px solid transparent; transition: all 0.3s; }
+.player-card.own { border-color: var(--accent-blue); background: rgba(0, 113, 227, 0.05); }
+.question-text { font-size: 20px; font-weight: 800; margin-bottom: 18px; text-align: center; min-height: 48px; display: flex; align-items: center; justify-content: center; line-height: 1.3; }
+.options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; }
+.option-btn { padding: 14px 8px; border-radius: var(--radius-sm); border: none; background: rgba(0,0,0,0.05); font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.2s; font-family: var(--font-stack); color: var(--text-primary); display: flex; align-items: center; justify-content: center; text-align: center; }
+.option-btn:active { transform: scale(0.96); }
+.option-btn.correct { background: var(--accent-green); color: white; animation: pulse 0.4s; }
+.option-btn.wrong { background: var(--accent-red); color: white; animation: shake 0.4s; }
+.option-btn:disabled { cursor: default; }
+
+.whiteboard-toggle-btn { position: fixed; bottom: 20px; right: 20px; width: 58px; height: 58px; border-radius: 50%; background: linear-gradient(135deg, #fff 0%, #f5f5f7 100%); border: 1.5px solid rgba(0,0,0,0.1); cursor: pointer; z-index: 100; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15); display: none; align-items: center; justify-content: center; transition: all 0.2s var(--transition-smooth); }
+.whiteboard-toggle-btn:active { transform: scale(0.9) rotate(-15deg); }
+.whiteboard-toggle-btn svg { width: 28px; height: 28px; }
+.whiteboard { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fdfdfb; z-index: 200; display: flex; flex-direction: column; transform: translateY(100%); transition: transform 0.3s var(--transition-smooth); }
+.whiteboard.visible { transform: translateY(0); }
+.whiteboard.hidden { transform: translateY(100%); pointer-events: none; }
+.whiteboard-header { padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(0,0,0,0.08); font-weight: 800; font-size: 17px; background: rgba(255,255,255,0.9); backdrop-filter: blur(20px); }
+.whiteboard-title { display: flex; align-items: center; gap: 8px; }
+.whiteboard-title svg { width: 22px; height: 22px; color: var(--accent-blue); }
+.btn-sm { padding: 9px 16px; border-radius: 12px; border: none; font-size: 13px; font-weight: 700; cursor: pointer; margin-left: 8px; background: rgba(0,0,0,0.06); font-family: var(--font-stack); }
+.btn-sm.danger { background: rgba(255, 59, 48, 0.1); color: var(--accent-red); }
+#draw-canvas { flex: 1; width: 100%; touch-action: none; cursor: crosshair; background-color: #fdfdfb; }
+
+@keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+@keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+@keyframes spin { to { transform: rotate(360deg); } }
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 4px; }
+</style>
+</head>
+<body>
+
+<div class="english-wallpaper">
+    <div class="shape shape-1"></div><div class="shape shape-2"></div><div class="shape shape-3"></div>
+    <div class="wallpaper-grid"></div>
+    <div class="letter-symbols" id="letter-symbols"></div>
+</div>
+
+<div id="settings-overlay" class="modal-backdrop">
+    <div class="modal-card">
+        <div class="modal-title">⚙️ Pengaturan</div>
+        <div class="setting-row"><span>🔊 Efek Suara</span><label class="toggle-switch"><input type="checkbox" id="set-sfx" onchange="app.applySettings()"><span class="toggle-slider"></span></label></div>
+        <div class="setting-row"><span>🎵 Musik</span><label class="toggle-switch"><input type="checkbox" id="set-music" onchange="app.applySettings()"><span class="toggle-slider"></span></label></div>
+        <div class="setting-row"><span>📳 Getaran</span><label class="toggle-switch"><input type="checkbox" id="set-haptic" onchange="app.applySettings()"><span class="toggle-slider"></span></label></div>
+        <button class="btn btn-primary" style="margin-top:16px;" onclick="app.closeSettings()">Selesai</button>
+    </div>
+</div>
+
+<div id="char-picker-overlay" class="modal-backdrop">
+    <div class="modal-card char-picker-card">
+        <div class="modal-title">Pilih Karakter</div>
+        <div class="char-picker-grid" id="char-picker-grid"></div>
+        <div class="char-picker-name" id="char-picker-name"></div>
+        <button class="btn btn-primary" onclick="app.confirmChar()">Gunakan Karakter Ini</button>
+        <button class="btn btn-secondary" style="margin-top:8px;" onclick="app.closeCharPicker()">Batal</button>
+    </div>
+</div>
+
+<!-- MODAL DAILY RANDOM FLASHCARD (FITUR BARU UNTUK ANAK) -->
+<div id="daily-flashcard-overlay" class="modal-backdrop">
+    <div class="modal-card daily-card-container">
+        <div class="modal-title">Flashcard Harian</div>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:4px;">
+            <span class="streak-badge" id="df-streak-display">Streak: 1 Hari</span>
+            <span style="font-size:12px; font-weight:700; color:var(--text-secondary);" id="df-counter-display">Kartu 1 / 5</span>
+        </div>
+
+        <div class="flip-card" id="daily-flip-card" onclick="dailyFlashcard.toggleFlip()">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <div class="df-emoji" id="df-emoji">🍎</div>
+                    <div class="df-eng" id="df-word">Apple</div>
+                    <div class="df-type-tag" id="df-type">Noun</div>
+                    <button class="df-audio-btn sfx-skip" onclick="event.stopPropagation(); dailyFlashcard.speakCurrent();">
+                        🔊 Dengar Pengucapan
+                    </button>
+                    <div class="df-hint">Sentuh kartu untuk melihat arti</div>
+                </div>
+                <div class="flip-card-back">
+                    <div class="df-indo" id="df-mean">Apel</div>
+                    <div class="df-example" id="df-example">"I eat a red apple every morning."</div>
+                    <div class="df-ex-indo" id="df-ex-indo">Saya makan apel merah setiap pagi.</div>
+                    <div class="df-hint" style="color:white; opacity:0.8;">Sentuh kartu untuk membalik</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="df-nav-row">
+            <button class="btn-sm" id="df-prev-btn" onclick="dailyFlashcard.prevCard()">Sebelum</button>
+            <button class="btn-sm" onclick="dailyFlashcard.randomizeNew()">Acak Lagi</button>
+            <button class="btn-sm" id="df-next-btn" onclick="dailyFlashcard.nextCard()">Sesudah</button>
+        </div>
+        <button class="btn btn-primary" style="margin-top:14px;" onclick="dailyFlashcard.close()">Tutup Flashcard</button>
+    </div>
+</div>
+
+<!-- MODAL MATERI & FLASHCARD TERSTRUKTUR -->
+<div id="material-overlay" class="modal-backdrop">
+    <div class="modal-card material-modal-card">
+        <div class="modal-title" style="text-align:center;">Materi & Flashcard</div>
+        <div class="input-group" style="margin-top:10px;">
+            <label>Pilih Tingkat Kelas</label>
+            <div class="select-wrapper">
+                <select class="input-field" id="material-level-select" onchange="app.renderMaterialContent()">
+                    <option value="1">1 SD - Basic Vocab & Colors</option>
+                    <option value="2">2 SD - Family & Simple Verbs</option>
+                    <option value="3">3 SD - Greetings & Likes</option>
+                    <option value="4">4 SD - Prepositions & Pronouns</option>
+                    <option value="5">5 SD - Past Tense & Comparison</option>
+                    <option value="6">6 SD - Superlative & Future Tense</option>
+                    <option value="7">7 SMP - Present Continuous & Possessive</option>
+                    <option value="8">8 SMP - Modals & Past Continuous</option>
+                    <option value="9">9 SMP - Passive Voice & Agreement</option>
+                    <option value="10">10 SMA - Present Perfect & Cause Effect</option>
+                    <option value="11">11 SMA - Conditionals & Contrast</option>
+                    <option value="12">12 SMA - Reported Speech & Subjunctive</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="material-grid-container">
+            <div class="grid-box">
+                <h3><span>📘</span> Materi Ringkas</h3>
+                <div id="material-grammar-body"></div>
+            </div>
+            <div class="grid-box">
+                <h3><span>🎴</span> Flashcard Vocabulary</h3>
+                <div id="material-flashcard-body" class="flashcards-wrapper"></div>
+            </div>
+        </div>
+
+        <button class="btn btn-primary" onclick="app.closeMaterial()">Tutup & Siap Bermain</button>
+    </div>
+</div>
+
+<div id="modal-backdrop" class="modal-backdrop">
+    <div class="modal-card">
+        <div class="modal-icon" id="modal-icon">⚠️</div>
+        <div class="modal-title" id="modal-title">Peringatan</div>
+        <div class="modal-message" id="modal-message">Pesan modal</div>
+        <div class="modal-buttons" id="modal-buttons"></div>
+    </div>
+</div>
+
+<div id="result-overlay" class="modal-backdrop">
+    <div class="modal-card result-card-box" id="result-card-box"></div>
+</div>
+
+<div id="review-overlay" class="modal-backdrop">
+    <div class="modal-card result-card-box" id="review-card-box"></div>
+</div>
+
+<div id="home-screen" class="screen active">
+    <div class="glass-card">
+        <button class="settings-gear" onclick="app.openSettings()" aria-label="Pengaturan">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </button>
+        <div class="home-logo"><div class="logo-cube"><span>E</span></div></div>
+        <h1>ENGLISH RUN</h1>
+        <div class="home-badges">
+            <span class="hbadge blue">single player</span>
+            <span class="hbadge purple">survival</span>
+            <span class="hbadge green">multiplayer</span>
+        </div>
+        <div class="home-stats" id="home-stats"></div>
+        
+        <div id="home-form" style="flex:1; overflow-y:auto;">
+            <div class="input-group">
+                <label>Nama Pemain</label>
+                <input type="text" class="input-field" id="player-name" placeholder="Masukkan nama..." maxlength="12">
+            </div>
+            <div class="input-group">
+                <label>Karakter</label>
+                <button class="char-select-btn" onclick="app.openCharPicker()">
+                    <div class="char-preview-icon" id="char-preview"></div>
+                    <span class="char-preview-name" id="char-preview-name"></span>
+                    <span class="chevron">›</span>
+                </button>
+            </div>
+            <div class="form-row">
+                <div class="input-group">
+                    <label>Mode</label>
+                    <div class="select-wrapper">
+                        <select class="input-field" id="game-mode" onchange="app.toggleModeOptions()">
+                            <option value="solo">Single Player</option>
+                            <option value="survival">Survival</option>
+                            <option value="multiplayer">Multiplayer</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Kelas</label>
+                    <div class="select-wrapper">
+                        <select class="input-field" id="game-level">
+                            <option value="1">1 SD</option><option value="2">2 SD</option>
+                            <option value="3">3 SD</option><option value="4">4 SD</option>
+                            <option value="5">5 SD</option><option value="6">6 SD</option>
+                            <option value="7">7 SMP</option><option value="8">8 SMP</option>
+                            <option value="9">9 SMP</option><option value="10">10 SMA</option>
+                            <option value="11">11 SMA</option><option value="12">12 SMA</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tombol Fitur Flashcard Harian Anak -->
+            <button class="btn btn-gold" onclick="dailyFlashcard.open()" style="margin-bottom:8px;">Flashcard Harian</button>
+            <button class="btn btn-purple" onclick="app.openMaterial()" style="margin-bottom:8px;">Materi & Flashcard</button>
+
+            <div id="multiplayer-options" style="display:none; margin-top:4px;">
+                <button class="btn btn-success" onclick="app.createRoom()">Buat Room</button>
+                <div style="margin: 8px 0; display: flex; align-items: center; gap: 10px;">
+                    <div style="flex:1; height:1px; background:rgba(0,0,0,0.1);"></div>
+                    <span style="color:var(--text-secondary); font-size:12px; font-weight:700;">ATAU</span>
+                    <div style="flex:1; height:1px; background:rgba(0,0,0,0.1);"></div>
+                </div>
+                <input type="text" class="input-field" id="room-code-input" placeholder="Kode Room (4 digit)" style="text-transform:uppercase; margin-bottom:10px;" maxlength="4" inputmode="numeric">
+                <button class="btn btn-primary" onclick="app.joinRoom()">Gabung Room</button>
+            </div>
+            <button class="btn btn-primary" id="start-game-btn" onclick="app.startGame()" style="margin-top:4px;">Mulai Bermain</button>
+        </div>
+        
+        <div id="waiting-room" style="display:none;">
+            <div id="host-waiting" style="display:none;">
+                <p class="subtitle" style="margin-bottom:6px;">Kode Room Anda:</p>
+                <div id="host-creating" style="margin:20px auto; width:30px; height:30px; border:3px solid rgba(0,0,0,0.1); border-top-color:var(--accent-blue); border-radius:50%; animation: spin 1s linear infinite;"></div>
+                <div id="room-code-display" style="display:none; background:rgba(0,113,227,0.08); padding:16px; border-radius:14px; margin-bottom:12px; border: 2px dashed var(--accent-blue); align-items:center; justify-content:center;">
+                    <strong id="display-room-code" style="color:var(--accent-blue); font-size:36px; letter-spacing:8px; font-family:monospace;"></strong>
+                </div>
+                <button class="btn-sm" id="copy-code-btn" style="display:none; margin-bottom:12px;" onclick="app.copyRoomCode()">Salin Kode</button>
+                <p class="subtitle" style="font-size:12px;">Bagikan kode ini ke temanmu!</p>
+            </div>
+            <div id="join-waiting" style="display:none;">
+                <div style="margin:20px auto; width:30px; height:30px; border:3px solid rgba(0,0,0,0.1); border-top-color:var(--accent-blue); border-radius:50%; animation: spin 1s linear infinite;"></div>
+                <p class="subtitle" style="font-size:13px;">Menghubungkan ke host...</p>
+            </div>
+            <div id="player-list" style="text-align:left; margin: 12px 0; background:rgba(255,255,255,0.6); padding:12px; border-radius:14px;"></div>
+            <button class="btn btn-primary" id="host-start-btn" style="display:none; margin-bottom:10px;" onclick="app.hostStartGame()">Mulai Permainan</button>
+            <button class="btn btn-danger" onclick="app.leaveRoom()">Kembali</button>
+        </div>
+    </div>
+</div>
+
+<div id="game-screen" class="screen">
+    <div class="game-header">
+        <div class="header-left" id="header-left"></div>
+        <div class="header-center" id="header-center"></div>
+        <div class="header-right">
+            <button class="icon-btn exit" onclick="app.exitGame()" title="Keluar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            </button>
+        </div>
+    </div>
+    <div class="solo-player-name" id="solo-player-name"></div>
+    <div class="track-container">
+        <div class="sprint-track" id="sprint-track"></div>
+        <div class="distance-labels"><span>START</span><span>25m</span><span>50m</span><span>75m</span><span>FINISH 🏁</span></div>
+    </div>
+    <div id="game-area" class="game-area p-1"></div>
+</div>
+
+<button id="whiteboard-btn" class="whiteboard-toggle-btn sfx-skip" onclick="whiteboard.toggle()" aria-label="Whiteboard">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#1d1d1f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" fill="#ff9500" stroke="#1d1d1f"/>
+        <path d="m15 5 4 4" stroke="#1d1d1f"/>
+    </svg>
+</button>
+
+<div id="whiteboard" class="whiteboard hidden">
+    <div class="whiteboard-header">
+        <div class="whiteboard-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>
+            <span>Coret-Coret / Catatan</span>
+        </div>
+        <div>
+            <button class="btn-sm" onclick="whiteboard.clear()">Hapus Layar</button>
+            <button class="btn-sm danger" onclick="whiteboard.toggle()">Kembali</button>
+        </div>
+    </div>
+    <canvas id="draw-canvas"></canvas>
+</div>
+
+<script>
+console.log("English Run v2.5 - Daily Flashcard & Audio Integration");
+
+const QUESTION_TIME = 30;
+const SURVIVAL_LIVES = 5;
+const SOLO_QUESTIONS = 10;
+
+const CHARACTERS = [
+    { id: 'blaze', name: 'Blaze', color: '#ff9500', svg: `<svg viewBox="0 0 100 100"><defs><linearGradient id="bz" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff9500"/><stop offset="1" stop-color="#ff3b30"/></linearGradient></defs><circle cx="50" cy="50" r="38" fill="url(#bz)"/><path d="M50 15 Q55 25 50 30 Q45 25 50 15" fill="#ffd60a"/><circle cx="38" cy="45" r="7" fill="#fff"/><circle cx="62" cy="45" r="7" fill="#fff"/><circle cx="38" cy="45" r="3.5" fill="#1d1d1f"/><circle cx="62" cy="45" r="3.5" fill="#1d1d1f"/><path d="M38 65 Q50 75 62 65" stroke="#1d1d1f" stroke-width="4" fill="none" stroke-linecap="round"/></svg>` },
+    { id: 'foxy', name: 'Foxy', color: '#ff7a00', svg: `<svg viewBox="0 0 100 100"><defs><linearGradient id="fx" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffb340"/><stop offset="1" stop-color="#ff7a00"/></linearGradient></defs><path d="M25 25 L18 8 L38 20 Z" fill="url(#fx)"/><path d="M75 25 L82 8 L62 20 Z" fill="url(#fx)"/><circle cx="50" cy="52" r="36" fill="url(#fx)"/><circle cx="38" cy="45" r="6" fill="#fff"/><circle cx="62" cy="45" r="6" fill="#fff"/><circle cx="38" cy="45" r="3" fill="#1d1d1f"/><circle cx="62" cy="45" r="3" fill="#1d1d1f"/><ellipse cx="50" cy="62" rx="5" ry="4" fill="#1d1d1f"/></svg>` },
+    { id: 'robo', name: 'Robo', color: '#5c6670', svg: `<svg viewBox="0 0 100 100"><defs><linearGradient id="rb" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8e9eab"/><stop offset="1" stop-color="#5c6670"/></linearGradient></defs><rect x="45" y="8" width="10" height="14" rx="4" fill="#0071e3"/><circle cx="50" cy="8" r="4" fill="#ffd60a"/><rect x="18" y="24" width="64" height="58" rx="16" fill="url(#rb)"/><rect x="28" y="38" width="18" height="14" rx="6" fill="#00e5ff"/><rect x="54" y="38" width="18" height="14" rx="6" fill="#00e5ff"/><rect x="35" y="62" width="30" height="8" rx="4" fill="#1d1d1f"/></svg>` },
+    { id: 'zoom', name: 'Zoom', color: '#0071e3', svg: `<svg viewBox="0 0 100 100"><defs><linearGradient id="zm" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4facfe"/><stop offset="1" stop-color="#0071e3"/></linearGradient></defs><circle cx="50" cy="50" r="38" fill="url(#zm)"/><circle cx="38" cy="52" r="7" fill="#fff"/><circle cx="62" cy="52" r="7" fill="#fff"/><circle cx="40" cy="52" r="3.5" fill="#1d1d1f"/><circle cx="64" cy="52" r="3.5" fill="#1d1d1f"/><path d="M40 70 Q50 78 60 70" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round"/></svg>` },
+    { id: 'wizzy', name: 'Wizzy', color: '#af52de', svg: `<svg viewBox="0 0 100 100"><defs><linearGradient id="wz" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#af52de"/><stop offset="1" stop-color="#7b2ff7"/></linearGradient></defs><path d="M50 5 L70 45 L30 45 Z" fill="url(#wz)"/><circle cx="50" cy="30" r="4" fill="#ffd60a"/><circle cx="50" cy="62" r="32" fill="url(#wz)"/><circle cx="40" cy="58" r="6" fill="#fff"/><circle cx="60" cy="58" r="6" fill="#fff"/><circle cx="40" cy="58" r="3" fill="#1d1d1f"/><circle cx="60" cy="58" r="3" fill="#1d1d1f"/><path d="M42 74 Q50 80 58 74" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/></svg>` },
+    { id: 'kitty', name: 'Kitty', color: '#ffb700', svg: `<svg viewBox="0 0 100 100"><defs><linearGradient id="kt" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd60a"/><stop offset="1" stop-color="#ffb700"/></linearGradient></defs><path d="M28 28 L22 10 L40 22 Z" fill="url(#kt)"/><path d="M72 28 L78 10 L60 22 Z" fill="url(#kt)"/><circle cx="50" cy="55" r="36" fill="url(#kt)"/><circle cx="38" cy="48" r="6" fill="#1d1d1f"/><circle cx="62" cy="48" r="6" fill="#1d1d1f"/><path d="M46 60 L50 64 L54 60" fill="#ff7ab8"/></svg>` },
+    { id: 'ninja', name: 'Ninja', color: '#1d1d1f', svg: `<svg viewBox="0 0 100 100"><defs><linearGradient id="nj" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a3f47"/><stop offset="1" stop-color="#1d1d1f"/></linearGradient></defs><circle cx="50" cy="50" r="38" fill="url(#nj)"/><rect x="20" y="42" width="60" height="18" rx="9" fill="#f5d0a9"/><circle cx="38" cy="51" r="4" fill="#1d1d1f"/><circle cx="62" cy="51" r="4" fill="#1d1d1f"/></svg>` },
+    { id: 'zorp', name: 'Zorp', color: '#2ed573', svg: `<svg viewBox="0 0 100 100"><defs><linearGradient id="zp" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7bed9f"/><stop offset="1" stop-color="#2ed573"/></linearGradient></defs><ellipse cx="50" cy="45" rx="34" ry="30" fill="url(#zp)"/><ellipse cx="36" cy="42" rx="9" ry="12" fill="#1d1d1f"/><ellipse cx="64" cy="42" rx="9" ry="12" fill="#1d1d1f"/><path d="M42 60 Q50 66 58 60" stroke="#1d1d1f" stroke-width="3" fill="none" stroke-linecap="round"/></svg>` }
+];
+
+let selectedChar = CHARACTERS[0];
+let gameActive = false;
+let lastResult = null;
+
+function showScreen(id) { document.querySelectorAll('.screen').forEach(s => s.classList.remove('active')); const t = document.getElementById(id); if (t) t.classList.add('active'); }
+function charIcon(charObj, size) { return `<div class="char-icon" style="width:${size}px;height:${size}px;display:inline-block;">${charObj.svg}</div>`; }
+
+function initEnglishWallpaper() {
+    const container = document.getElementById('letter-symbols'); if (!container) return;
+    container.innerHTML = '';
+    const letters = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','HELLO','ENGLISH','RUN','LEARN','VOCAB'];
+    const colors = ['rgba(0,113,227,0.3)','rgba(175,82,222,0.3)','rgba(255,149,0,0.3)','rgba(52,199,89,0.3)','rgba(255,59,48,0.25)'];
+    for (let i = 0; i < 28; i++) {
+        const sym = document.createElement('div');
+        sym.className = 'letter-sym' + (Math.random() > 0.6 ? ' bounce' : '');
+        sym.innerText = letters[Math.floor(Math.random()*letters.length)];
+        sym.style.fontSize = (18 + Math.random()*38) + 'px';
+        sym.style.left = (Math.random()*100) + '%';
+        sym.style.color = colors[Math.floor(Math.random()*colors.length)];
+        const dur = 12 + Math.random()*18;
+        sym.style.animationDuration = dur + 's';
+        sym.style.animationDelay = '-' + (Math.random()*dur) + 's';
+        container.appendChild(sym);
+    }
+}
+
+// ===== BANK FLASHCARD HARIAN ANAK (DAILY RANDOM VOCABULARY BANK) =====
+const FLASHCARD_BANK = [
+    { emoji: '🐱', word: 'Cat', type: 'Noun', mean: 'Kucing', example: 'The cat is sleeping on the mat.', exIndo: 'Kucing itu sedang tidur di atas keset.' },
+    { emoji: '🐶', word: 'Dog', type: 'Noun', mean: 'Anjing', example: 'My dog likes to play with a ball.', exIndo: 'Anjingku suka bermain dengan bola.' },
+    { emoji: '🦁', word: 'Lion', type: 'Noun', mean: 'Singa', example: 'The lion is the king of the jungle.', exIndo: 'Singa adalah raja hutan.' },
+    { emoji: '🍎', word: 'Apple', type: 'Noun', mean: 'Apel', example: 'I eat a red apple every morning.', exIndo: 'Saya makan apel merah setiap pagi.' },
+    { emoji: '🍌', word: 'Banana', type: 'Noun', mean: 'Pisang', example: 'Monkeys love eating bananas.', exIndo: 'Monyet sangat suka makan pisang.' },
+    { emoji: '☀️', word: 'Sun', type: 'Noun', mean: 'Matahari', example: 'The sun shines brightly in the sky.', exIndo: 'Matahari bersinar cerah di langit.' },
+    { emoji: '🌙', word: 'Moon', type: 'Noun', mean: 'Bulan', example: 'The moon appears at night.', exIndo: 'Bulan muncul di malam hari.' },
+    { emoji: '⭐', word: 'Star', type: 'Noun', mean: 'Bintang', example: 'Stars twinkle in the dark night.', exIndo: 'Bintang-bintang berkedip di malam yang gelap.' },
+    { emoji: '🚗', word: 'Car', type: 'Noun', mean: 'Mobil', example: 'My father drives a red car.', exIndo: 'Ayahku mengendarai mobil merah.' },
+    { emoji: '🚀', word: 'Rocket', type: 'Noun', mean: 'Roket', example: 'The rocket flies into outer space.', exIndo: 'Roket meluncur ke luar angkasa.' },
+    { emoji: '📚', word: 'Book', type: 'Noun', mean: 'Buku', example: 'She is reading an interesting book.', exIndo: 'Dia sedang membaca buku yang menarik.' },
+    { emoji: '✏️', word: 'Pencil', type: 'Noun', mean: 'Pensil', example: 'Use a pencil to draw a picture.', exIndo: 'Gunakan pensil untuk menggambar gambar.' },
+    { emoji: '🏫', word: 'School', type: 'Noun', mean: 'Sekolah', example: 'We go to school together.', exIndo: 'Kita pergi ke sekolah bersama.' },
+    { emoji: '🌈', word: 'Rainbow', type: 'Noun', mean: 'Pelangi', example: 'Look at the beautiful rainbow after rain.', exIndo: 'Lihatlah pelangi yang indah setelah hujan.' },
+    { emoji: '🏃', word: 'Run', type: 'Verb', mean: 'Berlari', example: 'Children run happily in the park.', exIndo: 'Anak-anak berlari dengan bahagia di taman.' },
+    { emoji: '🦘', word: 'Jump', type: 'Verb', mean: 'Melompat', example: 'Kangaroos can jump very high.', exIndo: 'Kanguru bisa melompat sangat tinggi.' },
+    { emoji: '🏊', word: 'Swim', type: 'Verb', mean: 'Berenang', example: 'Fish swim gracefully in water.', exIndo: 'Ikan berenang dengan anggun di air.' },
+    { emoji: '🎤', word: 'Sing', type: 'Verb', mean: 'Bernyanyi', example: 'She loves to sing catchy songs.', exIndo: 'Dia suka bernyanyi lagu-lagu yang ceria.' },
+    { emoji: '😊', word: 'Happy', type: 'Adj', mean: 'Bahagia', example: 'I feel happy today.', exIndo: 'Saya merasa bahagia hari ini.' },
+    { emoji: '🦁', word: 'Brave', type: 'Adj', mean: 'Pemberani', example: 'The firefighter is very brave.', exIndo: 'Pemadam kebakaran itu sangat pemberani.' },
+    { emoji: '💡', word: 'Smart', type: 'Adj', mean: 'Pintar', example: 'You are a smart student.', exIndo: 'Kamu adalah siswa yang pintar.' },
+    { emoji: '🍕', word: 'Pizza', type: 'Noun', mean: 'Piza', example: 'We shared a big delicious pizza.', exIndo: 'Kami berbagi piza besar yang lezat.' },
+    { emoji: '🥛', word: 'Milk', type: 'Noun', mean: 'Susu', example: 'Drink milk to grow strong bones.', exIndo: 'Minumlah susu agar tulang menjadi kuat.' },
+    { emoji: '🍦', word: 'Ice Cream', type: 'Noun', mean: 'Es Krim', example: 'Sweet ice cream tastes great in summer.', exIndo: 'Es krim manis rasanya sangat enak di musim panas.' },
+    { emoji: '🦋', word: 'Butterfly', type: 'Noun', mean: 'Kupu-kupu', example: 'A colorful butterfly landed on the flower.', exIndo: 'Kupu-kupu berwarna-warni hinggap di atas bunga.' }
+];
+
+class DailyFlashcardManager {
+    constructor() {
+        this.todayCards = [];
+        this.currentIndex = 0;
+        this.isFlipped = false;
+        this.streak = 1;
+    }
+
+    init() {
+        this.checkStreak();
+        this.loadDailyCards();
+    }
+
+    checkStreak() {
+        try {
+            const todayStr = new Date().toISOString().split('T')[0];
+            const lastDate = localStorage.getItem('er_last_daily_date');
+            let streak = parseInt(localStorage.getItem('er_daily_streak') || '1');
+
+            if (lastDate) {
+                const prev = new Date(lastDate);
+                const curr = new Date(todayStr);
+                const diffDays = Math.round((curr - prev) / (1000 * 60 * 60 * 24));
+                if (diffDays === 1) {
+                    streak++;
+                } else if (diffDays > 1) {
+                    streak = 1;
+                }
+            }
+            localStorage.setItem('er_last_daily_date', todayStr);
+            localStorage.setItem('er_daily_streak', streak.toString());
+            this.streak = streak;
+        } catch(e) { this.streak = 1; }
+    }
+
+    loadDailyCards() {
+        const dateStr = new Date().toISOString().split('T')[0];
+        let seed = 0;
+        for (let i = 0; i < dateStr.length; i++) seed += dateStr.charCodeAt(i);
+        
+        const shuffled = [...FLASHCARD_BANK].sort((a, b) => {
+            const hashA = (a.word.charCodeAt(0) * seed) % 100;
+            const hashB = (b.word.charCodeAt(0) * seed) % 100;
+            return hashA - hashB;
+        });
+        
+        this.todayCards = shuffled.slice(0, 5);
+        this.currentIndex = 0;
+        this.isFlipped = false;
+    }
+
+    randomizeNew() {
+        const shuffled = [...FLASHCARD_BANK].sort(() => Math.random() - 0.5);
+        this.todayCards = shuffled.slice(0, 5);
+        this.currentIndex = 0;
+        this.isFlipped = false;
+        this.renderCard();
+    }
+
+    open() {
+        this.loadDailyCards();
+        const overlay = document.getElementById('daily-flashcard-overlay');
+        if (overlay) overlay.classList.add('active');
+        this.renderCard();
+    }
+
+    close() {
+        const overlay = document.getElementById('daily-flashcard-overlay');
+        if (overlay) overlay.classList.remove('active');
+    }
+
+    toggleFlip() {
+        const card = document.getElementById('daily-flip-card');
+        if (card) {
+            this.isFlipped = !this.isFlipped;
+            card.classList.toggle('flipped', this.isFlipped);
+        }
+    }
+
+    speakCurrent() {
+        if ('speechSynthesis' in window && this.todayCards[this.currentIndex]) {
+            window.speechSynthesis.cancel();
+            const text = this.todayCards[this.currentIndex].word;
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'en-US';
+            utterance.rate = 0.85;
+            window.speechSynthesis.speak(utterance);
+        }
+    }
+
+    prevCard() {
+        if (this.currentIndex > 0) {
+            this.currentIndex--;
+            this.isFlipped = false;
+            this.renderCard();
+        }
+    }
+
+    nextCard() {
+        if (this.currentIndex < this.todayCards.length - 1) {
+            this.currentIndex++;
+            this.isFlipped = false;
+            this.renderCard();
+        }
+    }
+
+    renderCard() {
+        const card = this.todayCards[this.currentIndex];
+        if (!card) return;
+
+        const flipCard = document.getElementById('daily-flip-card');
+        if (flipCard) flipCard.classList.remove('flipped');
+        this.isFlipped = false;
+
+        const streakEl = document.getElementById('df-streak-display');
+        if (streakEl) streakEl.innerText = ` Streak: ${this.streak} Hari`;
+
+        const counterEl = document.getElementById('df-counter-display');
+        if (counterEl) counterEl.innerText = `Kartu ${this.currentIndex + 1} / ${this.todayCards.length}`;
+
+        document.getElementById('df-emoji').innerText = card.emoji;
+        document.getElementById('df-word').innerText = card.word;
+        document.getElementById('df-type').innerText = card.type;
+
+        document.getElementById('df-mean').innerText = card.mean;
+        document.getElementById('df-example').innerText = `"${card.example}"`;
+        document.getElementById('df-ex-indo').innerText = card.exIndo;
+
+        const prevBtn = document.getElementById('df-prev-btn');
+        const nextBtn = document.getElementById('df-next-btn');
+        if (prevBtn) prevBtn.disabled = this.currentIndex === 0;
+        if (nextBtn) nextBtn.disabled = this.currentIndex === this.todayCards.length - 1;
+    }
+}
+const dailyFlashcard = new DailyFlashcardManager();
+
+// ===== DATA MATERI KELAS & FLASHCARD =====
+const LEARNING_MATERIALS = {
+    '1': {
+        grammar: [
+            { h: "1. Animals (Hewan)", p: "Gunakan kata benda dasar untuk menyebut hewan liar dan peliharaan." },
+            { h: "2. Colors (Warna)", p: "Kata sifat warna diletakkan sebelum kata benda. Contoh: Red apple (Apel merah)." },
+            { h: "3. Numbers (Angka 1-10)", p: "One (1), Two (2), Three (3), Four (4), Five (5), Six (6), Seven (7), Eight (8), Nine (9), Ten (10)." }
+        ],
+        flashcards: [
+            { word: "Cat", type: "Noun", mean: "Kucing", desc: "Hewan peliharaan berbulu yang berkaki empat." },
+            { word: "Dog", type: "Noun", mean: "Anjing", desc: "Hewan mamalia berkaki empat yang setia." },
+            { word: "Yellow", type: "Adj", mean: "Kuning", desc: "Warna seperti sinar matahari atau pisang matang." },
+            { word: "Apple", type: "Noun", mean: "Apel", desc: "Buah manis berwarna merah atau hijau." }
+        ]
+    },
+    '2': {
+        grammar: [
+            { h: "1. Family Members", p: "Menyebut anggota keluarga dasar seperti Father (Ayah), Mother (Ibu), Brother (Saudara L). Kakak/Adik P = Sister." },
+            { h: "2. Simple Action Verbs", p: "Kata kerja aksi sederhana yang digunakan sehari-hari: Eat (Makan), Drink (Minum), Sleep (Tidur)." }
+        ],
+        flashcards: [
+            { word: "Father", type: "Noun", mean: "Ayah", desc: "Orang tua laki-laki." },
+            { word: "Mother", type: "Noun", mean: "Ibu", desc: "Orang tua perempuan." },
+            { word: "Drink", type: "Verb", mean: "Minum", desc: "Memasukkan cairan ke dalam mulut." },
+            { word: "Sleep", type: "Verb", mean: "Tidur", desc: "Beristirahat memejamkan mata." }
+        ]
+    },
+    '3': {
+        grammar: [
+            { h: "1. Greetings (Salam)", p: "Good morning (Pagi), Good afternoon (Siang), Good evening (Sore/Malam), Good night (Selamat tidur)." },
+            { h: "2. Days of the Week", p: "Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday." },
+            { h: "3. Like vs Likes", p: "I/You/We/They + Like. He/She/It + Likes." }
+        ],
+        flashcards: [
+            { word: "Morning", type: "Noun", mean: "Pagi", desc: "Waktu terbit matahari." },
+            { word: "Tuesday", type: "Noun", mean: "Selasa", desc: "Hari kedua dalam seminggu." },
+            { word: "Likes", type: "Verb", mean: "Menyukai", desc: "Digunakan untuk subjek He/She/It." }
+        ]
+    },
+    '4': {
+        grammar: [
+            { h: "1. Prepositions of Place", p: "In (Di dalam), On (Di atas menempel), Under (Di bawah), Behind (Di belakang)." },
+            { h: "2. Subject Pronouns", p: "I, You, They, We, He, She, It sebagai subjek kalimat." }
+        ],
+        flashcards: [
+            { word: "Under", type: "Prep", mean: "Di bawah", desc: "Posisi di bagian bawah suatu benda." },
+            { word: "Behind", type: "Prep", mean: "Di belakang", desc: "Posisi di bagian belakang." },
+            { word: "She", type: "Pronoun", mean: "Dia (P)", desc: "Kata ganti perempuan tunggal." }
+        ]
+    },
+    '5': {
+        grammar: [
+            { h: "1. Simple Past Tense", p: "Menyatakan kejadian masa lalu. Gunakan Kata Kerja Bentuk 2 (V2). Contoh: Go -> Went." },
+            { h: "2. Comparative (-er)", p: "Menyatakan lebih dari. Contoh: Bigger than (Lebih besar dari), Taller than (Lebih tinggi)." }
+        ],
+        flashcards: [
+            { word: "Went", type: "Verb (V2)", mean: "Pergi", desc: "Bentuk lampau dari 'Go'." },
+            { word: "Ate", type: "Verb (V2)", mean: "Makan", desc: "Bentuk lampau dari 'Eat'." },
+            { word: "Taller", type: "Adj", mean: "Lebih tinggi", desc: "Perbandingan komparatif untuk tinggi." }
+        ]
+    },
+    '6': {
+        grammar: [
+            { h: "1. Superlatives (-est / Most)", p: "Menyatakan yang paling/ter-. Contoh: The highest (Paling tinggi), The most beautiful." },
+            { h: "2. Simple Future (Will)", p: "Subjek + Will + V1 untuk rencana atau prediksi masa depan." }
+        ],
+        flashcards: [
+            { word: "Highest", type: "Adj", mean: "Paling tinggi", desc: "Bentuk superlative dari High." },
+            { word: "Tomorrow", type: "Adv", mean: "Besok", desc: "Hari setelah hari ini." },
+            { word: "Straight", type: "Adj/Adv", mean: "Lurus", desc: "Arah lurus tanpa berbelok." }
+        ]
+    },
+    '7': {
+        grammar: [
+            { h: "1. Present Continuous", p: "Kejadian yang sedang berlangsung saat ini. Subjek + am/is/are + Verb-ing." },
+            { h: "2. Possessive Pronouns", p: "Mine (Milikku), Yours (Milikmu), His (Miliknya L), Hers (Miliknya P), Theirs (Milik mereka)." }
+        ],
+        flashcards: [
+            { word: "Studying", type: "V-ing", mean: "Sedang belajar", desc: "Tindakan belajar yang sedang terjadi." },
+            { word: "Mine", type: "Pronoun", mean: "Milikku", desc: "Kata ganti kepunyaan mandiri." }
+        ]
+    },
+    '8': {
+        grammar: [
+            { h: "1. Modal Auxiliaries", p: "Must (Harus), Should (Seharusnya/Saran), Can (Bisa), May (Boleh)." },
+            { h: "2. Past Continuous", p: "Subjek + was/were + Verb-ing untuk kegiatan yang sedang terjadi di masa lalu." }
+        ],
+        flashcards: [
+            { word: "Should", type: "Modal", mean: "Seharusnya", desc: "Memberikan nasihat/saran." },
+            { word: "Must", type: "Modal", mean: "Harus", desc: "Kewajiban atau keharusan mutlak." }
+        ]
+    },
+    '9': {
+        grammar: [
+            { h: "1. Passive Voice", p: "Kalimat pasif (dikenai pekerjaan). Subjek + Be + V3 (Past Participle)." },
+            { h: "2. Agreement & Disagreement", p: "I agree with you (Setuju), I disagree / I don't think so (Tidak setuju)." }
+        ],
+        flashcards: [
+            { word: "Written", type: "Verb (V3)", mean: "Ditulis", desc: "Bentuk V3 dari Write." },
+            { word: "Agree", type: "Verb", mean: "Setuju", desc: "Memiliki pendapat yang sama." }
+        ]
+    },
+    '10': {
+        grammar: [
+            { h: "1. Present Perfect Tense", p: "Subjek + Have/Has + V3. Kejadian yang telah selesai tapi efeknya terasa sekarang." },
+            { h: "2. Cause & Effect", p: "Because + Klausa (S+V). Because of / Due to + Kata Benda (Noun)." }
+        ],
+        flashcards: [
+            { word: "Seen", type: "Verb (V3)", mean: "Pernah melihat", desc: "Bentuk V3 dari See." },
+            { word: "Due to", type: "Prep", mean: "Karena", desc: "Diikuti frasa kata benda (noun phrase)." }
+        ]
+    },
+    '11': {
+        grammar: [
+            { h: "1. Conditionals (Type 1 & 2)", p: "Type 1: If + Present, Will + V1. Type 2: If + Past, Would + V1 (Pengandaian masa kini)." },
+            { h: "2. Contrast Conjunctions", p: "Although / Even though (Klausa). Despite / In spite of (Kata Benda)." }
+        ],
+        flashcards: [
+            { word: "Although", type: "Conj", mean: "Meskipun", desc: "Diikuti oleh Subjek + Kata Kerja." },
+            { word: "Despite", type: "Prep", mean: "Meskipun", desc: "Diikuti oleh Kata Benda / V-ing." }
+        ]
+    },
+    '12': {
+        grammar: [
+            { h: "1. Reported / Indirect Speech", p: "Pergeseran waktu (Backshift): Present -> Past, Will -> Would, Can -> Could." },
+            { h: "2. Subjunctive Wish", p: "Subjek + Wish + Subjek + V2/Were (Menyatakan keinginan berlawanan fakta)." }
+        ],
+        flashcards: [
+            { word: "Would", type: "Modal", mean: "Akan (Past)", desc: "Bentuk lampau dari Will dalam indirect speech." },
+            { word: "Wish", type: "Verb", mean: "Berharap", desc: "Pengandaian keinginan yang berlawanan fakta." }
+        ]
+    }
+};
+
+const Settings = {
+    sfx: true, music: true, haptic: true,
+    load() { try { const s = localStorage.getItem('er_settings'); if (s) { const d = JSON.parse(s); this.sfx = d.sfx !== false; this.music = d.music !== false; this.haptic = d.haptic !== false; } } catch(e){} },
+    save() { try { localStorage.setItem('er_settings', JSON.stringify({ sfx:this.sfx, music:this.music, haptic:this.haptic })); } catch(e){} },
+    applyToUI() {
+        const s = document.getElementById('set-sfx'); const m = document.getElementById('set-music'); const h = document.getElementById('set-haptic');
+        if (s) s.checked = this.sfx; if (m) m.checked = this.music; if (h) h.checked = this.haptic;
+    }
+};
+
+const Stats = {
+    data: null,
+    load() { try { const s = localStorage.getItem('er_stats'); this.data = s ? JSON.parse(s) : this.fresh(); } catch(e){ this.data = this.fresh(); } },
+    fresh() { return { gamesPlayed: 0, totalCorrect: 0, totalWrong: 0, totalWins: 0, bestScore: 0 }; },
+    save() { try { localStorage.setItem('er_stats', JSON.stringify(this.data)); } catch(e){} },
+    record(correct, wrong, score, won) {
+        if (!this.data) this.load();
+        this.data.gamesPlayed++; this.data.totalCorrect += correct; this.data.totalWrong += wrong;
+        if (won) this.data.totalWins++;
+        if (score > this.data.bestScore) this.data.bestScore = score;
+        this.save(); this.renderHome();
+    },
+    renderHome() {
+        const el = document.getElementById('home-stats'); if (!el || !this.data) return;
+        const d = this.data;
+        const total = d.totalCorrect + d.totalWrong;
+        const acc = total > 0 ? Math.round((d.totalCorrect/total)*100) : 0;
+        el.innerHTML = `
+            <div class="hs-item"><span class="hs-val">${d.gamesPlayed}</span><span class="hs-label">Main</span></div>
+            <div class="hs-item"><span class="hs-val">${d.totalWins}</span><span class="hs-label">Menang</span></div>
+            <div class="hs-item"><span class="hs-val">${acc}%</span><span class="hs-label">Akurasi</span></div>
+            <div class="hs-item"><span class="hs-val">${d.bestScore}</span><span class="hs-label">Terbaik</span></div>`;
+    }
+};
+
+class SoundManager {
+    constructor() {
+        this.ctx = null; this.masterGain = null; this.musicGain = null;
+        this.musicPlaying = false; this.musicTimer = null;
+        this.isMobile = /Android|iPhone|iPad|iPod|webOS/i.test(navigator.userAgent) || ('ontouchstart' in window && /Mobi/i.test(navigator.userAgent));
+    }
+    ensure() {
+        if (this.ctx) { if (this.ctx.state === 'suspended') this.ctx.resume(); return; }
+        try {
+            this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+            const AC = this.ctx;
+            this.masterGain = AC.createGain();
+            this.masterGain.gain.value = this.isMobile ? 1.8 : 0.9;
+            const comp = AC.createDynamicsCompressor();
+            this.masterGain.connect(comp); comp.connect(AC.destination);
+            this.musicGain = AC.createGain();
+            this.musicGain.gain.value = this.isMobile ? 0.32 : 0.22;
+            this.musicGain.connect(this.masterGain);
+        } catch(e) { console.error("Audio init", e); }
+    }
+    tone(freq, dur, type='sine', vol=1, delay=0, dest=null) {
+        if (!this.ctx) return;
+        const target = dest || this.masterGain;
+        const osc = this.ctx.createOscillator(); const g = this.ctx.createGain();
+        osc.type = type; osc.frequency.value = freq;
+        const t = this.ctx.currentTime + delay;
+        g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(vol, t + 0.01);
+        g.gain.exponentialRampToValueAtTime(0.001, t + dur);
+        osc.connect(g); g.connect(target); osc.start(t); osc.stop(t + dur + 0.05);
+    }
+    click() { if (!Settings.sfx) return; this.tone(1100, 0.06, 'sine', 0.28); }
+    correct() { if (!Settings.sfx) return; this.tone(523.25, 0.1, 'sine', 0.65); this.tone(659.25, 0.12, 'sine', 0.65, 0.09); this.tone(783.99, 0.18, 'sine', 0.55, 0.18); }
+    wrong() { if (!Settings.sfx) return; this.tone(220, 0.18, 'sawtooth', 0.4); this.tone(165, 0.25, 'sawtooth', 0.4, 0.12); }
+    gameStart() { if (!Settings.sfx) return; [392, 523.25, 659.25].forEach((f,i)=> this.tone(f, 0.12, 'triangle', 0.45, i*0.09)); }
+    win() { if (!Settings.sfx) return; [523.25, 659.25, 783.99, 1046.50].forEach((f,i)=> this.tone(f, 0.25, 'triangle', 0.55, i*0.13)); }
+    startMusic() {
+        if (!Settings.music || !this.ctx || this.musicPlaying) return;
+        this.musicPlaying = true;
+        const chords = [
+            { bass: 130.81, notes: [261.63, 329.63, 392.00] },
+            { bass: 98.00,  notes: [246.94, 293.66, 392.00] },
+            { bass: 110.00, notes: [261.63, 329.63, 440.00] },
+            { bass: 87.31,  notes: [261.63, 349.23, 440.00] }
+        ];
+        let i = 0;
+        const step = () => {
+            if (!this.musicPlaying) return;
+            const c = chords[i % chords.length];
+            c.notes.forEach((f, k) => this.tone(f, 1.7, 'sine', 0.10, k*0.06, this.musicGain));
+            this.tone(c.bass, 1.7, 'triangle', 0.13, 0, this.musicGain);
+            i++;
+        };
+        step(); this.musicTimer = setInterval(step, 1900);
+    }
+    stopMusic() { this.musicPlaying = false; if (this.musicTimer) { clearInterval(this.musicTimer); this.musicTimer = null; } }
+}
+const sound = new SoundManager();
+const Haptic = {
+    can: typeof navigator !== 'undefined' && 'vibrate' in navigator,
+    tap() { if (this.can && Settings.haptic) try { navigator.vibrate(10); } catch(e){} },
+    correct() { if (this.can && Settings.haptic) try { navigator.vibrate([25]); } catch(e){} },
+    wrong() { if (this.can && Settings.haptic) try { navigator.vibrate([70, 40, 70]); } catch(e){} },
+    win() { if (this.can && Settings.haptic) try { navigator.vibrate([40,40,40,40,150]); } catch(e){} }
+};
+document.addEventListener('pointerdown', () => sound.ensure(), { passive: true });
+document.addEventListener('click', (e) => {
+    if (e.target.closest('.option-btn, .char-select-btn, .picker-char, .sfx-skip')) return;
+    const interactive = e.target.closest('button, .btn');
+    if (interactive) { sound.ensure(); sound.click(); Haptic.tap(); }
+});
+
+const Modal = {
+    show(icon, title, message, buttons) {
+        const mi = document.getElementById('modal-icon'); const mt = document.getElementById('modal-title');
+        const mm = document.getElementById('modal-message'); const mb = document.getElementById('modal-buttons');
+        if (mi) mi.innerText = icon; if (mt) mt.innerText = title; if (mm) mm.innerText = message;
+        if (mb) { mb.innerHTML = ''; buttons.forEach(b => { const btn = document.createElement('button'); btn.className = `btn ${b.class}`; btn.innerText = b.text; btn.onclick = () => { this.hide(); if (b.action) b.action(); }; mb.appendChild(btn); }); }
+        const bd = document.getElementById('modal-backdrop'); if (bd) bd.classList.add('active');
+    },
+    hide() { const bd = document.getElementById('modal-backdrop'); if (bd) bd.classList.remove('active'); },
+    alert(icon, title, message) { return new Promise(res => this.show(icon, title, message, [{ text: 'OK', class: 'btn-primary', action: res }])); },
+    confirm(icon, title, message, yesText='Ya', noText='Batal') {
+        return new Promise(res => this.show(icon, title, message, [
+            { text: noText, class: 'btn-secondary', action: () => res(false) },
+            { text: yesText, class: 'btn-danger', action: () => res(true) }
+        ]));
+    }
+};
+
+class Whiteboard {
+    constructor() { this.canvas = null; this.ctx = null; this.isDrawing = false; }
+    init() {
+        try {
+            this.canvas = document.getElementById('draw-canvas'); if (!this.canvas) return;
+            this.ctx = this.canvas.getContext('2d'); this.resize();
+            window.addEventListener('resize', () => this.resize());
+            const getPos = (e) => { const rect = this.canvas.getBoundingClientRect(); const cx = e.touches ? e.touches[0].clientX : e.clientX; const cy = e.touches ? e.touches[0].clientY : e.clientY; return { x: cx - rect.left, y: cy - rect.top }; };
+            const start = (e) => { this.isDrawing = true; const p = getPos(e); this.ctx.beginPath(); this.ctx.moveTo(p.x, p.y); };
+            const move = (e) => { if (!this.isDrawing) return; e.preventDefault(); const p = getPos(e); this.ctx.lineTo(p.x, p.y); this.ctx.stroke(); };
+            const stop = () => { this.isDrawing = false; };
+            this.canvas.addEventListener('mousedown', start); this.canvas.addEventListener('mousemove', move);
+            this.canvas.addEventListener('mouseup', stop); this.canvas.addEventListener('mouseout', stop);
+            this.canvas.addEventListener('touchstart', start, { passive: false }); this.canvas.addEventListener('touchmove', move, { passive: false });
+            this.canvas.addEventListener('touchend', stop);
+        } catch(e) { console.error("Whiteboard init", e); }
+    }
+    resize() {
+        if (!this.canvas || !this.ctx) return;
+        const temp = document.createElement('canvas'); temp.width = this.canvas.width; temp.height = this.canvas.height;
+        temp.getContext('2d').drawImage(this.canvas, 0, 0);
+        const rect = this.canvas.parentElement.getBoundingClientRect();
+        this.canvas.width = rect.width; this.canvas.height = rect.height - 55;
+        this.ctx.lineCap = 'round'; this.ctx.lineJoin = 'round'; this.ctx.lineWidth = 3; this.ctx.strokeStyle = '#1d1d1f';
+        this.ctx.drawImage(temp, 0, 0);
+    }
+    clear() { if (this.ctx && this.canvas) this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); }
+    toggle() {
+        const el = document.getElementById('whiteboard'); if (!el) return;
+        if (el.classList.contains('hidden')) { el.classList.remove('hidden'); requestAnimationFrame(() => { el.classList.add('visible'); this.resize(); }); }
+        else { el.classList.remove('visible'); setTimeout(() => el.classList.add('hidden'), 300); }
+    }
+    hide() { const el = document.getElementById('whiteboard'); if (el) { el.classList.remove('visible'); el.classList.add('hidden'); } }
+}
+const whiteboard = new Whiteboard();
+
+// ===== GENERATOR SOAL BAHASA INGGRIS =====
+class EnglishEngine {
+    static shuffle(arr) { const s = [...arr]; for (let i = s.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [s[i], s[j]] = [s[j], s[i]]; } return s; }
+    static rand(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+
+    static generate(level) {
+        level = parseInt(level);
+        const gens = [null, this.kelas1, this.kelas2, this.kelas3, this.kelas4, this.kelas5, this.kelas6, this.kelas7, this.kelas8, this.kelas9, this.kelas10, this.kelas11, this.kelas12];
+        const fn = gens[level] || this.kelas1;
+        return fn.call(this);
+    }
+
+    static kelas1() {
+        const items = [
+            { en: "Cat", id: "Kucing" }, { en: "Dog", id: "Anjing" },
+            { en: "Bird", id: "Burung" }, { en: "Fish", id: "Ikan" },
+            { en: "Rabbit", id: "Kelinci" }, { en: "Red", id: "Merah" },
+            { en: "Blue", id: "Biru" }, { en: "Yellow", id: "Kuning" },
+            { en: "Green", id: "Hijau" }, { en: "One", id: "Satu" },
+            { en: "Two", id: "Dua" }, { en: "Three", id: "Tiga" }
+        ];
+        const target = items[this.rand(0, items.length - 1)];
+        const dir = Math.random() > 0.5;
+        let q, corr, wrong, sol;
+        if (dir) {
+            q = `Apa bahasa Inggris dari '${target.id}'?`;
+            corr = target.en;
+            wrong = items.filter(x => x.en !== target.en).map(x => x.en);
+            sol = `'${target.id}' dalam bahasa Inggris adalah '${target.en}'.`;
+        } else {
+            q = `Kata '${target.en}' artinya adalah...`;
+            corr = target.id;
+            wrong = items.filter(x => x.id !== target.id).map(x => x.id);
+            sol = `'${target.en}' artinya adalah '${target.id}'.`;
+        }
+        return { q, options: this.shuffle([corr, ...this.shuffle(wrong).slice(0, 3)]), correct: corr, solution: sol };
+    }
+
+    static kelas2() {
+        const items = [
+            { en: "Father", id: "Ayah" }, { en: "Mother", id: "Ibu" }, { en: "Brother", id: "Saudara Laki-laki" },
+            { en: "Sister", id: "Saudara Perempuan" }, { en: "Eyes", id: "Mata" }, { en: "Ears", id: "Telinga" },
+            { en: "Eat", id: "Makan" }, { en: "Drink", id: "Minum" }, { en: "Sleep", id: "Tidur" }
+        ];
+        const target = items[this.rand(0, items.length - 1)];
+        const q = `Apa terjemahan dari '${target.en}'?`;
+        const corr = target.id;
+        const wrong = items.filter(x => x.id !== target.id).map(x => x.id);
+        const sol = `'${target.en}' diterjemahkan menjadi '${target.id}'.`;
+        return { q, options: this.shuffle([corr, ...this.shuffle(wrong).slice(0, 3)]), correct: corr, solution: sol };
+    }
+
+    static kelas3() {
+        const pool = [
+            { q: "Salam yang diucapkan pada pagi hari adalah...", corr: "Good morning", wrong: ["Good afternoon", "Good evening", "Good night"], sol: "Good morning = Selamat pagi." },
+            { q: "Salam yang diucapkan saat menjelang tidur adalah...", corr: "Good night", wrong: ["Good morning", "Good day", "Good afternoon"], sol: "Good night = Selamat tidur." },
+            { q: "Hari setelah 'Monday' adalah...", corr: "Tuesday", wrong: ["Sunday", "Wednesday", "Friday"], sol: "Monday (Senin) diikuti Tuesday (Selasa)." },
+            { q: "Lengkapi: She ___ an ice cream.", corr: "likes", wrong: ["like", "liking", "liked"], sol: "Subjek She/He/It memerlukan akhiran -s (likes)." }
+        ];
+        const item = pool[this.rand(0, pool.length - 1)];
+        return { q: item.q, options: this.shuffle([item.corr, ...item.wrong]), correct: item.corr, solution: item.sol };
+    }
+
+    static kelas4() {
+        const pool = [
+            { q: "The apple is ___ the table. (Di atas)", corr: "on", wrong: ["in", "under", "behind"], sol: "Gunakan 'on' untuk benda di atas permukaan." },
+            { q: "The shoes are ___ the bed. (Di bawah)", corr: "under", wrong: ["on", "in", "above"], sol: "Gunakan 'under' untuk posisi di bawah." },
+            { q: "Lengkapi: ___ is a nurse. (Dia perempuan)", corr: "She", wrong: ["He", "They", "We"], sol: "Dia perempuan = She." }
+        ];
+        const item = pool[this.rand(0, pool.length - 1)];
+        return { q: item.q, options: this.shuffle([item.corr, ...item.wrong]), correct: item.corr, solution: item.sol };
+    }
+
+    static kelas5() {
+        const pastVerbs = [
+            { v1: "go", v2: "went" }, { v1: "eat", v2: "ate" },
+            { v1: "see", v2: "saw" }, { v1: "buy", v2: "bought" }
+        ];
+        const item = pastVerbs[this.rand(0, pastVerbs.length - 1)];
+        const q = `Bentuk lampau (Verb 2) dari '${item.v1}' adalah...`;
+        const corr = item.v2;
+        const wrong = pastVerbs.filter(x => x.v2 !== item.v2).map(x => x.v2);
+        wrong.push(item.v1 + "ed");
+        return { q, options: this.shuffle([corr, ...this.shuffle(wrong).slice(0, 3)]), correct: corr, solution: `V2 dari '${item.v1}' adalah '${item.v2}'.` };
+    }
+
+    static kelas6() {
+        const pool = [
+            { q: "Mount Everest is the ___ mountain.", corr: "highest", wrong: ["high", "higher", "most high"], sol: "Superlative: The highest." },
+            { q: "Tomorrow, I ___ visit my grandparents.", corr: "will", wrong: ["did", "was", "have"], sol: "Future Tense (Tomorrow) menggunakan 'will'." }
+        ];
+        const item = pool[this.rand(0, pool.length - 1)];
+        return { q: item.q, options: this.shuffle([item.corr, ...item.wrong]), correct: item.corr, solution: item.sol };
+    }
+
+    static kelas7() {
+        const pool = [
+            { q: "Listen! The baby is ___.", corr: "crying", wrong: ["cry", "cried", "cries"], sol: "Present Continuous = am/is/are + Verb-ing." },
+            { q: "This laptop belongs to me. It is ___.", corr: "mine", wrong: ["my", "me", "myself"], sol: "Possessive Pronoun = mine." }
+        ];
+        const item = pool[this.rand(0, pool.length - 1)];
+        return { q: item.q, options: this.shuffle([item.corr, ...item.wrong]), correct: item.corr, solution: item.sol };
+    }
+
+    static kelas8() {
+        const pool = [
+            { q: "You ___ study hard if you want to pass.", corr: "should", wrong: ["would", "may not", "could not"], sol: "Should = Nasihat/saran." },
+            { q: "Students ___ turn off their phones during exam.", corr: "must", wrong: ["may", "could", "might"], sol: "Must = Kewajiban mutlak." }
+        ];
+        const item = pool[this.rand(0, pool.length - 1)];
+        return { q: item.q, options: this.shuffle([item.corr, ...item.wrong]), correct: item.corr, solution: item.sol };
+    }
+
+    static kelas9() {
+        const pool = [
+            { q: "The car ___ by my father yesterday.", corr: "was washed", wrong: ["is washed", "was wash", "washed"], sol: "Passive Past Tense = was/were + V3." },
+            { q: "English ___ all over the world.", corr: "is spoken", wrong: ["speaks", "was spoken", "speaking"], sol: "Passive Present = is/am/are + V3." }
+        ];
+        const item = pool[this.rand(0, pool.length - 1)];
+        return { q: item.q, options: this.shuffle([item.corr, ...item.wrong]), correct: item.corr, solution: item.sol };
+    }
+
+    static kelas10() {
+        const pool = [
+            { q: "She has ___ in Paris for three years.", corr: "lived", wrong: ["live", "living", "lives"], sol: "Present Perfect = Have/Has + V3." },
+            { q: "We were late ___ the heavy traffic.", corr: "because of", wrong: ["because", "due", "since"], sol: "Because of + Kata Benda." }
+        ];
+        const item = pool[this.rand(0, pool.length - 1)];
+        return { q: item.q, options: this.shuffle([item.corr, ...item.wrong]), correct: item.corr, solution: item.sol };
+    }
+
+    static kelas11() {
+        const pool = [
+            { q: "If I won the lottery, I ___ travel around the world.", corr: "would", wrong: ["will", "can", "may"], sol: "Conditional Type 2 = If + Past, Would + V1." },
+            { q: "___ the bad weather, the plane took off safely.", corr: "Despite", wrong: ["Although", "Even though", "Because"], sol: "Despite + Kata Benda." }
+        ];
+        const item = pool[this.rand(0, pool.length - 1)];
+        return { q: item.q, options: this.shuffle([item.corr, ...item.wrong]), correct: item.corr, solution: item.sol };
+    }
+
+    static kelas12() {
+        const pool = [
+            { q: "He said, 'I am tired.' -> He said that he ___ tired.", corr: "was", wrong: ["is", "has been", "will be"], sol: "Reported Speech: Present -> Past (is -> was)." },
+            { q: "I wish I ___ a bigger apartment.", corr: "had", wrong: ["have", "will have", "having"], sol: "Subjunctive Wish = Wish + Subjek + V2." }
+        ];
+        const item = pool[this.rand(0, pool.length - 1)];
+        return { q: item.q, options: this.shuffle([item.corr, ...item.wrong]), correct: item.corr, solution: item.sol };
+    }
+}
+
+// ===== MULTIPLAYER MANAGER =====
+class MultiplayerManager {
+    constructor() {
+        this.peer = null; this.connections = []; this.conn = null;
+        this.isHost = false; this.players = {}; this.myId = ''; this.myName = ''; this.myChar = null; this.myLevel = 1;
+        this.onMove = null; this.onGameOver = null; this.onLobbyUpdate = null; this.onStart = null;
+        this.gameOverTriggered = false; this._createAttempts = 0;
+    }
+    createRoom(name, charObj, level) {
+        this.myName = name; this.myChar = charObj; this.myLevel = parseInt(level);
+        this.isHost = true; this.players = {}; this.connections = [];
+        this.gameOverTriggered = false; this._createAttempts = 0;
+        this._tryCreate();
+    }
+    _tryCreate() {
+        if (this._createAttempts > 6) { Modal.alert('❌', 'Gagal Membuat Room', 'Terlalu banyak percobaan. Silakan coba lagi.'); app.leaveRoom(); return; }
+        const roomId = String(Math.floor(1000 + Math.random() * 9000));
+        this.peer = new Peer(`er-run-${roomId}`);
+        this.peer.on('open', (id) => {
+            this.myId = id;
+            this.players[id] = { id, name: this.myName, char: this.myChar, isHost: true, progress: 0, score: 0 };
+            document.getElementById('host-creating').style.display = 'none';
+            document.getElementById('room-code-display').style.display = 'flex';
+            document.getElementById('display-room-code').innerText = roomId;
+            document.getElementById('copy-code-btn').style.display = 'inline-block';
+            document.getElementById('host-start-btn').style.display = 'block';
+            this.updateLobby();
+        });
+        this.peer.on('connection', (conn) => {
+            this.connections.push(conn);
+            conn.on('data', (data) => this.handleData(data, conn));
+            conn.on('close', () => {
+                this.connections = this.connections.filter(c => c !== conn);
+                delete this.players[conn.peer];
+                this.broadcast({ type: 'LOBBY_UPDATE', players: this.players });
+                this.updateLobby();
+            });
+        });
+        this.peer.on('error', () => {
+            this._createAttempts++;
+            if (this.peer) this.peer.destroy();
+            this._tryCreate();
+        });
+    }
+    joinRoom(code, name, charObj) {
+        this.myName = name; this.myChar = charObj; this.isHost = false;
+        this.peer = new Peer();
+        this.peer.on('open', (id) => {
+            this.myId = id;
+            const hostPeerId = `er-run-${code}`;
+            this.conn = this.peer.connect(hostPeerId);
+            this.conn.on('open', () => {
+                this.conn.send({ type: 'JOIN', name: this.myName, char: this.myChar });
+            });
+            this.conn.on('data', (data) => this.handleData(data));
+            this.conn.on('close', () => {
+                Modal.alert('⚠️', 'Terputus', 'Koneksi ke Host terputus.');
+                app.leaveRoom();
+            });
+            this.conn.on('error', () => {
+                Modal.alert('❌', 'Gagal', 'Tidak dapat terhubung ke Room.');
+                app.leaveRoom();
+            });
+        });
+        this.peer.on('error', () => {
+            Modal.alert('❌', 'Gagal', 'Terjadi kesalahan koneksi.');
+            app.leaveRoom();
+        });
+    }
+    handleData(data, fromConn) {
+        if (data.type === 'JOIN' && this.isHost) {
+            const peerId = fromConn.peer;
+            this.players[peerId] = { id: peerId, name: data.name, char: data.char, isHost: false, progress: 0, score: 0 };
+            this.broadcast({ type: 'LOBBY_UPDATE', players: this.players });
+            this.updateLobby();
+        } else if (data.type === 'LOBBY_UPDATE') {
+            this.players = data.players;
+            this.updateLobby();
+        } else if (data.type === 'START') {
+            this.players = data.players;
+            if (this.onStart) this.onStart();
+        } else if (data.type === 'MOVE') {
+            if (this.players[data.id]) {
+                this.players[data.id].progress = data.progress;
+                this.players[data.id].score = data.score;
+            }
+            if (this.onMove) this.onMove(data.id, data.progress);
+        }
+    }
+    broadcast(data) {
+        this.connections.forEach(c => { if (c.open) c.send(data); });
+    }
+    sendMove(progress, score) {
+        if (this.players[this.myId]) {
+            this.players[this.myId].progress = progress;
+            this.players[this.myId].score = score;
+        }
+        const payload = { type: 'MOVE', id: this.myId, progress, score };
+        if (this.isHost) {
+            this.broadcast(payload);
+            if (this.onMove) this.onMove(this.myId, progress);
+        } else if (this.conn && this.conn.open) {
+            this.conn.send(payload);
+        }
+    }
+    updateLobby() {
+        const listEl = document.getElementById('player-list');
+        if (!listEl) return;
+        let html = '<h4 style="margin-bottom:8px;font-size:14px;color:var(--text-secondary);">Daftar Pemain:</h4>';
+        Object.values(this.players).forEach(p => {
+            html += `<div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;font-weight:700;">
+                <div style="width:28px;height:28px;">${p.char ? p.char.svg : ''}</div>
+                <span>${p.name} ${p.isHost ? '👑 (Host)' : ''}</span>
+            </div>`;
+        });
+        listEl.innerHTML = html;
+        if (this.onLobbyUpdate) this.onLobbyUpdate();
+    }
+    startGame() {
+        if (!this.isHost) return;
+        this.broadcast({ type: 'START', players: this.players });
+        if (this.onStart) this.onStart();
+    }
+    leave() {
+        if (this.conn) this.conn.close();
+        this.connections.forEach(c => c.close());
+        if (this.peer) this.peer.destroy();
+        this.peer = null; this.connections = []; this.players = {};
+    }
+}
+const mp = new MultiplayerManager();
+
+// ===== KLAS KONTROL APLIKASI =====
+class App {
+    constructor() {
+        this.mode = 'solo';
+        this.level = 1;
+        this.playerName = 'Runner';
+        this.char = CHARACTERS[0];
+        this.questions = [];
+        this.currentQIndex = 0;
+        this.score = 0;
+        this.correctCount = 0;
+        this.wrongCount = 0;
+        this.lives = SURVIVAL_LIVES;
+        this.timer = null;
+        this.timeLeft = QUESTION_TIME;
+        this.userAnswers = [];
+        this.trackProgress = 0;
+    }
+
+    init() {
+        Settings.load();
+        Settings.applyToUI();
+        Stats.load();
+        Stats.renderHome();
+        initEnglishWallpaper();
+        whiteboard.init();
+        dailyFlashcard.init();
+
+        const nameInput = document.getElementById('player-name');
+        if (nameInput) {
+            const savedName = localStorage.getItem('er_player_name');
+            if (savedName) nameInput.value = savedName;
+            this.playerName = nameInput.value || 'Pemain';
+        }
+
+        this.updateCharPreview();
+
+        mp.onStart = () => this.startMultiplayerGame();
+        mp.onMove = (id, progress) => this.updateRunnerPosition(id, progress);
+    }
+
+    openSettings() {
+        Settings.applyToUI();
+        document.getElementById('settings-overlay').classList.add('active');
+    }
+    closeSettings() { document.getElementById('settings-overlay').classList.remove('active'); }
+    applySettings() {
+        Settings.sfx = document.getElementById('set-sfx').checked;
+        Settings.music = document.getElementById('set-music').checked;
+        Settings.haptic = document.getElementById('set-haptic').checked;
+        Settings.save();
+        if (Settings.music && gameActive) sound.startMusic();
+        else sound.stopMusic();
+    }
+
+    openCharPicker() {
+        const grid = document.getElementById('char-picker-grid');
+        grid.innerHTML = '';
+        CHARACTERS.forEach(c => {
+            const div = document.createElement('div');
+            div.className = `picker-char ${c.id === selectedChar.id ? 'selected' : ''}`;
+            div.innerHTML = c.svg;
+            div.onclick = () => {
+                selectedChar = c;
+                document.querySelectorAll('.picker-char').forEach(el => el.classList.remove('selected'));
+                div.classList.add('selected');
+                document.getElementById('char-picker-name').innerText = c.name;
+            };
+            grid.appendChild(div);
+        });
+        document.getElementById('char-picker-name').innerText = selectedChar.name;
+        document.getElementById('char-picker-overlay').classList.add('active');
+    }
+    confirmChar() {
+        this.char = selectedChar;
+        this.updateCharPreview();
+        this.closeCharPicker();
+    }
+    closeCharPicker() { document.getElementById('char-picker-overlay').classList.remove('active'); }
+
+    updateCharPreview() {
+        document.getElementById('char-preview').innerHTML = this.char.svg;
+        document.getElementById('char-preview-name').innerText = this.char.name;
+    }
+
+    toggleModeOptions() {
+        const m = document.getElementById('game-mode').value;
+        this.mode = m;
+        const mpOpts = document.getElementById('multiplayer-options');
+        const startBtn = document.getElementById('start-game-btn');
+        if (m === 'multiplayer') {
+            mpOpts.style.display = 'block';
+            startBtn.style.display = 'none';
+        } else {
+            mpOpts.style.display = 'none';
+            startBtn.style.display = 'inline-flex';
+        }
+    }
+
+    openMaterial() {
+        this.renderMaterialContent();
+        document.getElementById('material-overlay').classList.add('active');
+    }
+    closeMaterial() { document.getElementById('material-overlay').classList.remove('active'); }
+
+    renderMaterialContent() {
+        const lvl = document.getElementById('material-level-select').value;
+        const mat = LEARNING_MATERIALS[lvl] || LEARNING_MATERIALS['1'];
+        
+        const gBody = document.getElementById('material-grammar-body');
+        gBody.innerHTML = mat.grammar.map(g => `<div class="material-section"><h4>${g.h}</h4><p>${g.p}</p></div>`).join('');
+
+        const fBody = document.getElementById('material-flashcard-body');
+        fBody.innerHTML = mat.flashcards.map(f => `
+            <div class="flashcard-item">
+                <div class="fc-word"><span>${f.word}</span><span class="fc-type">${f.type}</span></div>
+                <div class="fc-meaning">${f.mean}</div>
+                <div class="fc-desc">${f.desc}</div>
+            </div>
+        `).join('');
+    }
+
+    createRoom() {
+        this.readForm();
+        if (!this.playerName) return Modal.alert('⚠️', 'Nama Kosong', 'Masukkan nama Anda terlebih dahulu.');
+        document.getElementById('home-form').style.display = 'none';
+        document.getElementById('waiting-room').style.display = 'block';
+        document.getElementById('host-waiting').style.display = 'block';
+        document.getElementById('join-waiting').style.display = 'none';
+        mp.createRoom(this.playerName, this.char, this.level);
+    }
+
+    joinRoom() {
+        this.readForm();
+        const code = document.getElementById('room-code-input').value.trim();
+        if (!this.playerName) return Modal.alert('⚠️', 'Nama Kosong', 'Masukkan nama Anda terlebih dahulu.');
+        if (!code || code.length !== 4) return Modal.alert('⚠️', 'Kode Salah', 'Masukkan kode room 4 digit angka.');
+        document.getElementById('home-form').style.display = 'none';
+        document.getElementById('waiting-room').style.display = 'block';
+        document.getElementById('host-waiting').style.display = 'none';
+        document.getElementById('join-waiting').style.display = 'block';
+        mp.joinRoom(code, this.playerName, this.char);
+    }
+
+    copyRoomCode() {
+        const code = document.getElementById('display-room-code').innerText;
+        if (code && navigator.clipboard) {
+            navigator.clipboard.writeText(code);
+            Modal.alert('✅', 'Berhasil', 'Kode room disalin!');
+        }
+    }
+
+    leaveRoom() {
+        mp.leave();
+        document.getElementById('waiting-room').style.display = 'none';
+        document.getElementById('home-form').style.display = 'block';
+    }
+
+    hostStartGame() { mp.startGame(); }
+
+    readForm() {
+        const nameVal = document.getElementById('player-name').value.trim();
+        this.playerName = nameVal || 'Pemain';
+        localStorage.setItem('er_player_name', this.playerName);
+        this.mode = document.getElementById('game-mode').value;
+        this.level = parseInt(document.getElementById('game-level').value);
+    }
+
+    startGame() {
+        this.readForm();
+        gameActive = true;
+        this.score = 0;
+        this.correctCount = 0;
+        this.wrongCount = 0;
+        this.currentQIndex = 0;
+        this.userAnswers = [];
+        this.lives = SURVIVAL_LIVES;
+        this.trackProgress = 0;
+
+        sound.gameStart();
+        sound.startMusic();
+
+        if (this.mode === 'solo') {
+            this.questions = Array.from({ length: SOLO_QUESTIONS }, () => EnglishEngine.generate(this.level));
+        } else if (this.mode === 'survival') {
+            this.questions = Array.from({ length: 30 }, () => EnglishEngine.generate(this.level));
+        }
+
+        this.setupGameUI();
+        this.showQuestion();
+    }
+
+    startMultiplayerGame() {
+        gameActive = true;
+        this.score = 0;
+        this.correctCount = 0;
+        this.wrongCount = 0;
+        this.currentQIndex = 0;
+        this.userAnswers = [];
+        this.trackProgress = 0;
+
+        sound.gameStart();
+        sound.startMusic();
+
+        this.questions = Array.from({ length: 15 }, () => EnglishEngine.generate(mp.myLevel || this.level));
+        this.setupGameUI();
+        this.showQuestion();
+    }
+
+    setupGameUI() {
+        showScreen('game-screen');
+        document.getElementById('whiteboard-btn').style.display = 'flex';
+
+        const hl = document.getElementById('header-left');
+        const hc = document.getElementById('header-center');
+        hl.innerHTML = `<span class="progress-pill" id="prog-pill">1 / ${this.questions.length}</span>`;
+        
+        let centerHtml = `<span class="stat-pill correct">✓ <span id="stat-correct">0</span></span>
+                          <span class="stat-pill wrong">✗ <span id="stat-wrong">0</span></span>`;
+        if (this.mode === 'survival') {
+            centerHtml += `<div class="lives-display" id="lives-box">${'❤️'.repeat(this.lives)}</div>`;
+        }
+        centerHtml += `<div class="timer-display countdown" id="timer-box">⏱️ <span id="timer-val">30</span></div>`;
+        hc.innerHTML = centerHtml;
+
+        document.getElementById('solo-player-name').innerHTML = `${charIcon(this.char, 28)} <span>${this.playerName}</span>`;
+
+        const track = document.getElementById('sprint-track');
+        track.innerHTML = '';
+        if (this.mode === 'multiplayer') {
+            const pList = Object.values(mp.players);
+            pList.forEach(p => {
+                const lane = document.createElement('div');
+                lane.className = 'track-lane';
+                lane.innerHTML = `
+                    <div class="runner-char idle" id="runner-${p.id}" style="left:5%;">
+                        ${p.char ? p.char.svg : CHARACTERS[0].svg}
+                    </div>
+                    <div class="finish-line"></div>
+                `;
+                track.appendChild(lane);
+            });
+        } else {
+            const lane = document.createElement('div');
+            lane.className = 'track-lane';
+            lane.innerHTML = `
+                <div class="runner-char idle" id="runner-main" style="left:5%;">
+                    ${this.char.svg}
+                </div>
+                <div class="finish-line"></div>
+            `;
+            track.appendChild(lane);
+        }
+
+        const ga = document.getElementById('game-area');
+        ga.className = 'game-area p-1';
+        ga.innerHTML = `
+            <div class="player-card own">
+                <div class="question-text" id="question-text">Loading...</div>
+                <div class="options-grid" id="options-grid"></div>
+            </div>
+        `;
+    }
+
+    showQuestion() {
+        if (!gameActive) return;
+
+        if (this.currentQIndex >= this.questions.length) {
+            this.finishGame(true);
+            return;
+        }
+
+        const q = this.questions[this.currentQIndex];
+        document.getElementById('prog-pill').innerText = `${this.currentQIndex + 1} / ${this.questions.length}`;
+        document.getElementById('question-text').innerText = q.q;
+
+        const grid = document.getElementById('options-grid');
+        grid.innerHTML = '';
+        q.options.forEach(opt => {
+            const btn = document.createElement('button');
+            btn.className = 'option-btn';
+            btn.innerText = opt;
+            btn.onclick = () => this.answer(opt, btn);
+            grid.appendChild(btn);
+        });
+
+        this.startTimer();
+    }
+
+    startTimer() {
+        clearInterval(this.timer);
+        this.timeLeft = QUESTION_TIME;
+        const tv = document.getElementById('timer-val');
+        const tb = document.getElementById('timer-box');
+        if (tv) tv.innerText = this.timeLeft;
+        if (tb) tb.classList.remove('low');
+
+        this.timer = setInterval(() => {
+            this.timeLeft--;
+            if (tv) tv.innerText = this.timeLeft;
+            if (this.timeLeft <= 5 && tb) tb.classList.add('low');
+
+            if (this.timeLeft <= 0) {
+                clearInterval(this.timer);
+                this.handleTimeout();
+            }
+        }, 1000);
+    }
+
+    handleTimeout() {
+        const q = this.questions[this.currentQIndex];
+        this.recordAnswer(false, null, q);
+    }
+
+    answer(selected, btnEl) {
+        clearInterval(this.timer);
+        const q = this.questions[this.currentQIndex];
+        const isCorrect = selected === q.correct;
+
+        document.querySelectorAll('.option-btn').forEach(b => b.disabled = true);
+
+        if (isCorrect) {
+            btnEl.classList.add('correct');
+            sound.correct();
+            Haptic.correct();
+        } else {
+            btnEl.classList.add('wrong');
+            sound.wrong();
+            Haptic.wrong();
+            document.querySelectorAll('.option-btn').forEach(b => {
+                if (b.innerText === q.correct) b.classList.add('correct');
+            });
+        }
+
+        this.recordAnswer(isCorrect, selected, q);
+    }
+
+    recordAnswer(isCorrect, selectedOption, q) {
+        if (isCorrect) {
+            this.correctCount++;
+            this.score += 10 + Math.max(0, this.timeLeft);
+            this.trackProgress = Math.min(100, (this.correctCount / (this.mode === 'solo' ? SOLO_QUESTIONS : 15)) * 90 + 5);
+        } else {
+            this.wrongCount++;
+            if (this.mode === 'survival') {
+                this.lives--;
+                this.updateLivesUI();
+                if (this.lives <= 0) {
+                    setTimeout(() => this.finishGame(false), 800);
+                    return;
+                }
+            }
+        }
+
+        this.userAnswers.push({
+            q: q.q,
+            user: selectedOption || '(Waktu Habis)',
+            correct: q.correct,
+            solution: q.solution,
+            isCorrect
+        });
+
+        document.getElementById('stat-correct').innerText = this.correctCount;
+        document.getElementById('stat-wrong').innerText = this.wrongCount;
+
+        if (this.mode === 'multiplayer') {
+            mp.sendMove(this.trackProgress, this.score);
+        } else {
+            this.updateRunnerPosition('main', this.trackProgress);
+        }
+
+        setTimeout(() => {
+            this.currentQIndex++;
+            this.showQuestion();
+        }, 1000);
+    }
+
+    updateLivesUI() {
+        const el = document.getElementById('lives-box');
+        if (el) el.innerHTML = '❤️'.repeat(Math.max(0, this.lives));
+    }
+
+    updateRunnerPosition(id, progress) {
+        const runner = document.getElementById(`runner-${id}`);
+        if (runner) {
+            runner.style.left = `${Math.min(95, Math.max(5, progress))}%`;
+            runner.classList.remove('idle');
+            runner.classList.add('running');
+            setTimeout(() => {
+                runner.classList.remove('running');
+                runner.classList.add('idle');
+            }, 600);
+        }
+    }
+
+    finishGame(won) {
+        gameActive = false;
+        clearInterval(this.timer);
+        sound.stopMusic();
+        if (won) { sound.win(); Haptic.win(); }
+
+        Stats.record(this.correctCount, this.wrongCount, this.score, won);
+        lastResult = {
+            won,
+            score: this.score,
+            correct: this.correctCount,
+            wrong: this.wrongCount,
+            total: this.currentQIndex,
+            answers: this.userAnswers
+        };
+
+        this.showResultModal();
+    }
+
+    showResultModal() {
+        const box = document.getElementById('result-card-box');
+        const res = lastResult;
+        const total = res.correct + res.wrong;
+        const acc = total > 0 ? Math.round((res.correct / total) * 100) : 0;
+
+        box.innerHTML = `
+            <div class="modal-icon">${res.won ? '🏆' : '💔'}</div>
+            <div class="modal-title">${res.won ? 'Selamat! Kamu Menang!' : 'Permainan Selesai'}</div>
+            <div class="subtitle">Skor Akhir: <strong>${res.score}</strong></div>
+            <div class="result-stats">
+                <div class="result-stat"><span class="rs-label">Benar</span><span class="rs-value" style="color:var(--accent-green);">${res.correct}</span></div>
+                <div class="result-stat"><span class="rs-label">Salah</span><span class="rs-value" style="color:var(--accent-red);">${res.wrong}</span></div>
+                <div class="result-stat"><span class="rs-label">Akurasi</span><span class="rs-value">${acc}%</span></div>
+                <div class="result-stat"><span class="rs-label">Skor</span><span class="rs-value" style="color:var(--accent-blue);">${res.score}</span></div>
+            </div>
+            ${res.wrong > 0 ? `<button class="btn btn-purple" onclick="app.showReviewModal()" style="margin-bottom:8px;">Pembahasan Soal Salah (${res.wrong})</button>` : ''}
+            <button class="btn btn-primary" onclick="app.restartGame()" style="margin-bottom:8px;">Main Lagi</button>
+            <button class="btn btn-secondary" onclick="app.goHome()">Ke Menu Utama</button>
+        `;
+
+        document.getElementById('result-overlay').classList.add('active');
+    }
+
+    showReviewModal() {
+        document.getElementById('result-overlay').classList.remove('active');
+        const box = document.getElementById('review-card-box');
+        const wrongs = lastResult.answers.filter(a => !a.isCorrect);
+
+        let listHtml = wrongs.map((item, idx) => `
+            <div class="review-item">
+                <div class="review-q">${idx + 1}. ${item.q}</div>
+                <div class="review-your">Jawabanmu: ${item.user}</div>
+                <div class="review-correct">Jawaban Benar: ${item.correct}</div>
+                <div class="review-solution">💡 ${item.solution}</div>
+            </div>
+        `).join('');
+
+        box.innerHTML = `
+            <div class="modal-title">Pembahasan Jawaban</div>
+            <div class="review-list">${listHtml}</div>
+            <button class="btn btn-primary" onclick="app.closeReview()">Kembali</button>
+        `;
+
+        document.getElementById('review-overlay').classList.add('active');
+    }
+
+    closeReview() {
+        document.getElementById('review-overlay').classList.remove('active');
+        document.getElementById('result-overlay').classList.add('active');
+    }
+
+    restartGame() {
+        document.getElementById('result-overlay').classList.remove('active');
+        if (this.mode === 'multiplayer') {
+            this.goHome();
+        } else {
+            this.startGame();
+        }
+    }
+
+    goHome() {
+        document.getElementById('result-overlay').classList.remove('active');
+        document.getElementById('whiteboard-btn').style.display = 'none';
+        whiteboard.hide();
+        showScreen('home-screen');
+    }
+
+    exitGame() {
+        Modal.confirm('⚠️', 'Keluar Game', 'Apakah Anda yakin ingin menghentikan permainan?').then(yes => {
+            if (yes) {
+                gameActive = false;
+                clearInterval(this.timer);
+                sound.stopMusic();
+                this.goHome();
+            }
+        });
+    }
+}
+
+const app = new App();
+window.addEventListener('DOMContentLoaded', () => app.init());
+</script>
+</body>
+</html>
